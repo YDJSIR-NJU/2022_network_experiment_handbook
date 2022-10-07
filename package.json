@@ -1,0 +1,23 @@
+{
+  "name": "nw_experiment_handbook",
+  "version": "0.0.1",
+  "description": "Document of the experiment of Internet Computing course of NJUSE",
+  "main": "index.js",
+  "authors": {
+    "name": "YDJSIR",
+    "email": "ydjhtm@qq.com"
+  },
+  "repository": "https://git.nju.edu.cn/YDJSIR/citi-vuepress/docLab",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  },
+  "dependencies": {
+    "markdown-it-katex": "^2.0.3",
+    "vuepress-plugin-mathjax": "^1.2.8"
+  }
+}
