@@ -24,71 +24,46 @@
 
 配置Router2620A: （f0/0:192.168.10.1,s0/0:192.168.20.1）
 
+```bash
 Router>enable
-
 Router#config terminal
-
 Router#hostname Router2620A
-
 Router2620A(config)#int f0/0
-
 Router2620A(config-if)#ip address 192.168.10.1 255.255.255.0
-
 Router2620A(config-if)#no shut
-
 Router2620A(config-if)#int s0/0
-
 Router2620A(config-if)#ip address 192.168.20.1 255.255.255.0
-
 Router2620A(config-if)#no shut
-
- 
+```
 
 配置Router2621: （s0/0:192.168.20.2,s0/1:192.168.30.1）
 
+```bash
 Router>enable
-
 Router#config terminal
-
 Router#hostname Router2621
-
 Router2621(config)#int s0/1
-
 Router2621(config-if)#ip address 192.168.30.1 255.255.255.0
-
 Router2621(config-if)#no shut
-
 Router2621(config-if)#int s0/0
-
 Router2621(config-if)#ip address 192.168.20.2 255.255.255.0
-
 Router2621(config-if)#clock rate 56000
-
 Router2621(config-if)#no shut
+```
 
- 
+配置Router2620B: （s0/0:192.168.30.2,f0/0:192.168.40.1）
 
-配置Router2620B: （s0/0:192.168.30.2,f0/0:192.168.40.1） 
-
+```bash
 Router>enable
-
 Router#config terminal
-
 Router#hostname Router2620B
-
 Router2620B(config)#int s0/0
-
 Router2620B(config-if)#ip address 192.168.30.2 255.255.255.0
-
 Router2620B(config-if)#no shut
-
 Router2620B(config-if)#int f0/0
-
 Router2620B(config-if)#ip address 192.168.40.1 255.255.255.0
-
 Router2620B(config-if)#no shut
-
- 
+```
 
 用Ping命令测试各网段的连通性
 
@@ -100,9 +75,9 @@ Router2620B(config-if)#no shut
 
 例如：
 
+```bash
 Router2620A(config)#ip route 192.168.40.0 255.255.255.0 192.168.20.2 
-
- 
+```
 
 将路由表配置完备后，用ping命令检查各个端口间是否已顺利接通
 
@@ -114,15 +89,14 @@ Router2620A(config)#ip route 192.168.40.0 255.255.255.0 192.168.20.2
 
 以Router2620A为例：
 
+```bash
 Router2620A(config)# no ip route 192.168.40.0 255.255.255.0 192.168.20.2
-
 Router2620A(config)# ip route 0.0.0.0 0.0.0.0 192.168.20.2
+```
 
 查看路由表  （命令：Router# show ip route）
 
 注：有*号表示默认路由
-
- 
 
 ## 实验命令列表
 

@@ -24,121 +24,212 @@ RIPng 是一种[距离向量](https://baike.baidu.com/item/距离向量)（Dista
 
 路由器R1的基础配置
 
-R1(config)#ipv6 unicast-routing  
-
+```bash
+R1(config)#ipv6 unicast-routing   
 R1(config)#interface f 0/0
-
 R1(config-if)#ipv6 address 2001:2:2:2::2/64
-
 R1(config-if)#ipv6 rip cisco enable
-
 R1(config-if)#no keepalive
 
- 
-
 R1(config)#interface Serial 0/0/0
-
 R1(config-if)#ipv6 address 2001:A:A:A::2/64
-
 R1(config-if)#ipv6 rip cisco enable
-
 R1(config)#ipv6 router rip cisco
+```
 
  
 
 路由器R2的基础配置
 
+```bash
 R2(config)#ipv6 unicast-routing　
-
 R2(config)#interface f 0/0
-
 R2(config-if)#ipv6 address 2001:1:1:1::1/64
-
 R2(config-if)#ipv6 rip cisco enable
-
 R2(config-if)#no keepalive
-
 R2(config)#interface Serial 0/0/0
-
 R2(config-if)#ipv6 address 2001:A:A:A::1/64
-
 R2(config-if)#ipv6 rip cisco enable
-
 R2(config)#interface Serial 0/0/1
-
 R2(config-if)#ipv6 address 2001:B:B:B::1/64
-
 R2(config-if)#ipv6 rip cisco enable
-
 R2(config)#ipv6 router rip cisco
+```
 
  
 
 路由器R3的基础配置
 
+```bash
 R3(config)#ipv6 unicast-routing　
-
 R3(config)#interface f 0/0
-
 R3(config-if)#ipv6 address 2001:3:3:1::3/64
-
 R3(config-if)#ipv6 address 2001:3:3:2::3/64
-
 R3(config-if)#ipv6 address 2001:3:3:3::3/64
-
 R3(config-if)#ipv6 address 2001:3:3:4::3/64
-
 R3(config-if)#ipv6 address 2001:3:3:5::3/64
-
 R3(config-if)#ipv6 address 2001:3:3:6::3/64
-
 R3(config-if)#ipv6 rip cisco enable
-
 R3(config)#no keepalive
-
 R3(config)#interface Serial 0/0/0
-
 R3(config-if)#ipv6 address 2001:B:B:B::3/64
-
 R3(config-if)#ipv6 rip cisco enable
-
 R3(config)#ipv6 router rip cisco
-
- 
+```
 
 ### 2 验证配置
 
 在R1验证配置,如下图18.2所示
 
-  R1#show ipv6 rip   RIP process “cisco”,  port 521, multicast-group FF02::9, pid 168     Administrative distance is 120. Maximum  paths is 16     Updates every 30 seconds, expire after  180     Holddown lasts 0 seconds, garbage  collect after 120     Split horizon is on; poison reverse is  off     Default routes are not generated  Periodic updates 92, trigger updates16   Interfaces:     FastEthernet 0/0     Serial 0/0/0   Redistribution:     None  R1#show ipv6 route  IPv6 Routing Table – Default – 5  entries  Codes: C – Connected, L – Local, S –  Static, U – Per–user Static route       B – BGP, M – MIpv6, R – RIP, I1 – ISIS L1     I2 – ISIS L2, IA – ISIS interarea, IS –  ISIS summary, D – EIGRP     EX – EIGRP external     O – OSPF Intra, OI – OSPF Inter, OE1 –  OSPF ext 1, OE2 – OSPF ext 2     ON1 – OSPF NSSA ext 1, ON2 – OSPF NSSA  ext 2  R 2001:1:1:1::/64 [120/2]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  C 2001:2:2:2::/64 [0/0]     via ::, FastEthernet 0/0  L  2001:2:2:2::2/128 [0/0]     via ::, FastEthernet 0/0  R 2001:3:3:1::/64 [120/3]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  R 2001:3:3:2::/64 [120/3]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  R 2001:3:3:3::/64 [120/3]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  R 2001:3:3:4::/64 [120/3]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  R 2001:3:3:5::/64 [120/3]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  R 2001:3:3:6::/64 [120/3]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0  C 2001:A:A:A::/64 [0/0]     via ::. Serial 0/0/0  L 2001:A:A:A::2/128[0/0]     via ::, Serial 0/0/0  R 2001:B:B:B::/64 [120/2]     via FE80::CE00:3FF:FE68:0, Serial 0/0/0   L FE80::/10   [0/0]     R1#show ipv6  router rip  IPv6 Routing Table - 14 entries     Codes: C - Connected, L - Local, S - Static, R - RIP, B - BGP   U - Per-user Static route     I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary     O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2   ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2   R  2001:1:1:1::/64  [120/2]   via FE80::CE00:3FF:FE68:0, Serial0/0/0  R   2001:3:3:1::/64  [120/3]     via FE80::CE00:3FF:FE68:0, Serial0/0/0  R  2001:3:3:2::/64 [120/3]   via FE80::CE00:3FF:FE68:0, Serial0/0/0  R  2001:3:3:3::/64 [120/3]   via FE80::CE00:3FF:FE68:0, Serial0/0/0  R  2001:3:3:4::/64  [120/3]   via FE80::CE00:3FF:FE68:0, Serial0/0/0   R  2001:3:3:5::/64  [120/3]    via FE80::CE00:3FF:FE68:0, Serial0/0/0   R  2001:3:3:6::/64 [120/3]   via FE80::CE00:3FF:FE68:0, Serial0/0/0   R  2001:B:B:B::/64  [120/2]   via FE80::CE00:3FF:FE68:0, Serial0/0/0   R1#show ipv6 rip database   RIP process "cisco", local RIB   2001:1:1:1::/64, metric 2, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:3:3:1::/64, metric 3, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:3:3:2::/64, metric 3, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:3:3:3::/64, metric 3, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:3:3:4::/64, metric 3, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:3:3:5::/64, metric 3, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:3:3:6::/64, metric 3, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   2001:A:A:A::/64, metric 2     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs    2001:B:B:B::/64, metric 2, installed     Serial0/0/0/  FE80::CE00:3FF:FE68:0, expires in 157 secs   R1#show ipv6 rip next-hops   RIP   process "cisco", Next Hops   FE80::CE00:3FF:FE68:0/Serial0/0/0   [9 paths]   R1#  
+```bash
+R1#show ipv6 rip 
+RIP process “cisco”, port 521, multicast-group FF02::9, pid 168
+     Administrative distance is 120. Maximum paths is 16
+     Updates every 30 seconds, expire after 180
+     Holddown lasts 0 seconds, garbage collect after 120
+     Split horizon is on; poison reverse is off
+     Default routes are not generated
+Periodic updates 92, trigger updates16
+  Interfaces:
+      FastEthernet 0/0
+      Serial 0/0/0
+  Redistribution:
+      None
+R1#show ipv6 route
+IPv6 Routing Table – Default – 5 entries
+Codes: C – Connected, L – Local, S – Static, U – Per–user Static route
+      B – BGP, M – MIpv6, R – RIP, I1 – ISIS L1
+      I2 – ISIS L2, IA – ISIS interarea, IS – ISIS summary, D – EIGRP
+      EX – EIGRP external
+      O – OSPF Intra, OI – OSPF Inter, OE1 – OSPF ext 1, OE2 – OSPF ext 2
+      ON1 – OSPF NSSA ext 1, ON2 – OSPF NSSA ext 2
+R  2001:1:1:1::/64  [120/2]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+C  2001:2:2:2::/64  [0/0]
+     via ::, FastEthernet 0/0
+L  2001:2:2:2::2/128  [0/0]
+     via ::, FastEthernet 0/0
+R  2001:3:3:1::/64  [120/3]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+R  2001:3:3:2::/64  [120/3]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+R  2001:3:3:3::/64  [120/3]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+R  2001:3:3:4::/64  [120/3]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+R  2001:3:3:5::/64  [120/3]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+R  2001:3:3:6::/64  [120/3]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0
+C  2001:A:A:A::/64  [0/0]
+     via ::. Serial 0/0/0
+L  2001:A:A:A::2/128[0/0]
+     via ::, Serial 0/0/0
+R  2001:B:B:B::/64  [120/2]
+     via FE80::CE00:3FF:FE68:0, Serial 0/0/0 
+L  FE80::/10  [0/0]
+
+R1#show ipv6 router rip
+IPv6 Routing Table - 14 entries  
+Codes: C - Connected, L - Local, S - Static, R - RIP, B - BGP 
+U - Per-user Static route  
+I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary  
+O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2  
+ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2 
+R   2001:1:1:1::/64  [120/2]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R   2001:3:3:1::/64  [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R   2001:3:3:2::/64  [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R   2001:3:3:3::/64  [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R   2001:3:3:4::/64  [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0 
+R   2001:3:3:5::/64  [120/3]   
+via FE80::CE00:3FF:FE68:0, Serial0/0/0 
+R   2001:3:3:6::/64  [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0 
+R   2001:B:B:B::/64  [120/2]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0 
+R1#show ipv6 rip database 
+RIP process "cisco", local RIB 
+2001:1:1:1::/64, metric 2, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:3:3:1::/64, metric 3, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:3:3:2::/64, metric 3, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:3:3:3::/64, metric 3, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:3:3:4::/64, metric 3, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:3:3:5::/64, metric 3, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:3:3:6::/64, metric 3, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+2001:A:A:A::/64, metric 2  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+  2001:B:B:B::/64, metric 2, installed  
+Serial0/0/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
+R1#show ipv6 rip next-hops  
+RIP  process "cisco", Next Hops  
+FE80::CE00:3FF:FE68:0/Serial0/0/0  [9 paths] 
+R1#
+```
 
 ### 3 在R3上实现聚合路由
 
+```bash
 R3(congfig)#interface serial 0/0/0
-
 R3(config-if)ipv6 rip cisco summary-address 2001:3:3::/48
-
- 
+```
 
 在R1上查看路由表(聚合后的路由)，如下图18.3所示
 
-  R1#show ipv6 route rip   IPv6 Routing Table - 9 entries   Codes:   C - Connected, L - Local, S - Static, R - RIP, B - BGP   U - Per-user Static route     I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary     O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2   ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2   R 2001:1:1:1::/64 [120/2]     via FE80::CE00:3FF:FE68:0, Serial1/0   R  2001:3:3::/48 [120/3]   via FE80::CE00:3FF:FE68:0, Serial1/0   R  2001:B:B:B::/64 [120/2]     via FE80::CE00:3FF:FE68:0, Serial1/0   
-
-图18.3 聚合后的路由
+```bash
+R1#show ipv6 route rip  
+IPv6 Routing Table - 9 entries  
+Codes:  C - Connected, L - Local, S - Static, R - RIP, B - BGP 
+U - Per-user Static route  
+I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary  
+O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2 
+ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2 
+R  2001:1:1:1::/64 [120/2]  
+via FE80::CE00:3FF:FE68:0, Serial1/0 
+R   2001:3:3::/48 [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial1/0 
+R   2001:B:B:B::/64 [120/2]  
+via FE80::CE00:3FF:FE68:0, Serial1/0 
+```
 
 ### 4 在RIPng中分发默认路由
 
+```bash
 R3(config)#interface Serial 0/0/0
-
 R3(config-if)ipv6 rip cisco default-information originate metric 5
-
- 
+```
 
 在R1上查看默认路由，如下图18.4所示
 
-  R1#show ipv6 route rip   IPv6 Routing Table - 10 entries   Codes: C - Connected, L - Local, S - Static, R - RIP, B - BGP   U - Per-user Static route     I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary     O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2   ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2   R  ::/0 [120/7]    //ipv6里默认路由表示  via FE80::CE00:3FF:FE68:0, Serial0/0/0  R  2001:1:1:1::/64 [120/2]   via FE80::CE00:3FF:FE68:0, Serial0/0/0  R 2001:3:3::/48 [120/3]     via FE80::CE00:3FF:FE68:0, Serial0/0/0  R  2001:B:B:B::/64 [120/2]     via FE80::CE00:3FF:FE68:0, Serial0/0/0  R1#   
-
-图18.4 在R1上查看默认路由
+```bash
+R1#show ipv6 route rip  
+IPv6 Routing Table - 10 entries  
+Codes: C - Connected, L - Local, S - Static, R - RIP, B - BGP 
+U - Per-user Static route  
+I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary  
+O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2 
+ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2 
+R   ::/0 [120/7] 	//ipv6里默认路由表示
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R   2001:1:1:1::/64 [120/2]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R  2001:3:3::/48 [120/3]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R   2001:B:B:B::/64 [120/2]  
+via FE80::CE00:3FF:FE68:0, Serial0/0/0
+R1# 
+```
 
 ## 实验命令列表
 

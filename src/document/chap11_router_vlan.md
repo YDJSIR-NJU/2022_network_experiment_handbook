@@ -32,33 +32,56 @@ PC1和PC3属于Vlan 10，PC2和PC4属于Vlan 20，如果上述知识点能够配
 
 ### 1 将SW1和SW2之间的链路设置为Trunk链路
 
-  sw1(config)#interface  fa 0/23   sw1(config-if)#switchport  trunk encapsulation dot1q   sw1(config-if)#switchport  mode trunk   sw2(config)#interface  fa 0/23   sw2(config-if)#switchport  trunk encapsulation dot1q   sw2(config-if)#switchport  mode trunk   
-
-图11.2 设置Trunk链路
+```bash
+sw1(config)#interface fa 0/23 
+sw1(config-if)#switchport trunk encapsulation dot1q  
+sw1(config-if)#switchport mode trunk  
+sw2(config)#interface fa 0/23 
+sw2(config-if)#switchport trunk encapsulation dot1q  
+sw2(config-if)#switchport mode trunk 
+```
 
 ### 2 划分两个Vlan，Vlan 10和Vlan 20 
 
-  sw1(config)#vlan 10  sw2(config)#vlan 20  
-
-图11.3划分两个Vlan
+```bash
+sw1(config)#vlan 10
+sw2(config)#vlan 20
+```
 
 ### 3 分别将SW1和SW2的fa0/1口划分入 Vlan 10，fa0/2 口划分入 Vlan 20
 
-  sw1(config)#interface fa 0/1   sw1(config-if)#switchport mode access    sw1(config-if)#swichport access vlan  10   sw1(config-if)#exit   sw1(config)#interface fa 0/2   sw1(config-if)#switchport mode access    sw1(config-if)#switchport access vlan  20  
-
-图11.4 划分接口
+```bash
+sw1(config)#interface fa 0/1 
+sw1(config-if)#switchport mode access 
+sw1(config-if)#swichport access vlan 10  
+sw1(config-if)#exit 
+sw1(config)#interface fa 0/2 
+sw1(config-if)#switchport mode access 
+sw1(config-if)#switchport access vlan 20
+```
 
 sw2上进行同样的操作，操作完成后，在 sw1和sw2上分别使用 show vlan brief 命令，查看对应接口是否在正确的vlan中。
 
 ### 4 将SW1 的fa0/24 接口设置为Trunk接口，与 Router互联。
 
-  sw1(config)#interface fa 0/24   sw1(config)#switchport trunk  encapsulation dot1q   sw1(config-if)#switchport mode trunk  
-
-图11.5 将SW1 的fa0/24 接口设置为Trunk接口
+```bash
+sw1(config)#interface fa 0/24 
+sw1(config)#switchport trunk encapsulation dot1q 
+sw1(config-if)#switchport mode trunk
+```
 
 ### 5 Router 的 fa0/0 口需要划分两个子接口，分别对应 Vlan10 和 Vlan20，作为它们的网关。
 
-  Router(config)#interface fa 0/0  Router(config-if)#no ip address   Router(config-if)#no shutdown   Router(config)#int fa 0/0.10   Router(config-if)#encapsulation dot1q  10   Router(config-if)#ip address  192.168.10.1 255.255.255.0   Router(config)#int fa 0/0.20   Router(config-if)#encapsulation dot1q  20   Router(config-if)#ip address  192.168.20.1 255.255.255.0  
+```bash
+Router(config)#interface fa 0/0
+Router(config-if)#no ip address 
+Router(config-if)#no shutdown 
+Router(config)#int fa 0/0.10  
+Router(config-if)#encapsulation dot1q 10  
+Router(config-if)#ip address 192.168.10.1 255.255.255.0  
+Router(config)#int fa 0/0.20 
+Router(config-if)#encapsulation dot1q 20 
+```
 
 图11.6 划分router的两个子接口
 
@@ -68,7 +91,12 @@ PC1的IP地址为 192.168.10.2，网关为192.168.10.1，PC2的IP地址为 192.1
 
 配置正确，PC1 能够 ping 通 PC2。
 
-  Reply from 192.168.20.2: bytes=32  time=5ms TTL=127   Reply from 192.168.20.2: bytes=32  time=2ms TTL=127   Reply from 192.168.20.2: bytes=32  time=3ms TTL=127   Reply from 192.168.20.2: bytes=32  time=2ms TTL=127  
+```bash
+Reply from 192.168.20.2: bytes=32 time=5ms TTL=127 
+Reply from 192.168.20.2: bytes=32 time=2ms TTL=127 
+Reply from 192.168.20.2: bytes=32 time=3ms TTL=127 
+Reply from 192.168.20.2: bytes=32 time=2ms TTL=127
+```
 
 图11.7 PC1 ping通PC2
 

@@ -26,43 +26,40 @@
 
 Router2620A:
 
+```bash
 Router2620A(config)#router rip
-
 Router2620A(config)#network 192.168.10.0
-
 Router2620A(config)#network 192.168.20.0
-
- 
+```
 
 Router2621:
-
+```bash
 Router2621(config)# router rip
-
 Router2621(config)#network 192.168.20.0
-
 Router2621(config)#network 192.168.30.0
+```
 
- 
 
 Router2620B:
-
+```bash
 Router2620B(config)#router rip
-
 Router2620B(config)#network 192.168.30.0
-
 Router2620B(config)#network 192.168.40.0
+```
 
- 
 
 ### 3 使用show ip route查看路由表
 
 检查现在能否从Router2620B 上ping 192.168.40.1。
 
-\4.     使用如下指令查看路由表更新(每30秒更新一次)
+### 4 使用如下指令查看路由表更新(每30秒更新一次)
 
-debug ip rip//开始查看
+```bash
+debug ip rip #开始查看
+no debug all #停止查看
+```
 
-no debug all//停止查看
+
 
  
 

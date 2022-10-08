@@ -32,81 +32,88 @@ DCE：运营商所拥有的网间设备，DCE设备的作用是在网络中提�
 
 ### 1 配置中间的帧中继交换机
 
+```bash
 Fr-sw(config)#frame-relay switching
-
 Fr-sw(config)#interface serial 0/0/0
-
 Fr-sw(config-if)#encapsulation frame-relay
-
 Fr-sw(config-if)#frame-relay intf-type dce
-
 Fr-sw(config-if)#clock rate 64000
-
 Fr-sw(config-if)#frame-relay route 100 interface serial 0/0/1 200
-
 Fr-sw(config-if)#no shutdown
-
 Fr-sw(config-if)#exit
 
- 
-
 Fr-sw(config)#interface serial 0/0/1
-
 Fr-sw(config-if)#encapsulaiton frame-relay
-
 Fr-sw(config-if)#frame-relay intf-type dce
-
 Fr-sw(config-if)#clock rate 64000
-
 Fr-sw(config-if)#frame-relay route 200 interface serial 0/0/0 100
-
 Fr-sw(config-if)#no shutdown
-
- 
+```
 
 ### 2 配置 nju1
 
+```bash
 nju1(config)#interface serial 0/0/1
-
 nju1(config-if)#ip address 192.168.1.1 255.255.255.0
-
 nju1(config-if)#encapsulation frame-relay
-
 nju1(config-if)#no shutdown
-
- 
+```
 
 ### 3 配置 nju2
 
+```bash
 nju2(config)#interface serial 0/0/0
-
 nju2(config-if)#ip address 192.168.1.2 255.255.255.0
-
 nju2(config-if)#encapsulation frame-relay
-
 nju2(config-if)#no shutdown
+```
 
  
 
 ### 4 验证实验
 
-  nju2#ping 192.168.1.1     Type escape sequence to abort.  Sending 5, 100 type percent (5/5),  round-trip min/avg/max=56/56/60 ms   
+```bash
+nju2#ping 192.168.1.1
 
-图15.2 检测连通性
+Type escape sequence to abort.
+Sending 5, 100 type percent (5/5), round-trip min/avg/max=56/56/60 ms 
+```
 
-  nju2#show frame-relay map  Serial0/0/1 (up): ip 192.168.1.1 dlci  100(0*64,0*1840), dynamic,  
-
-图15.3 终端显示信息
+```bash
+nju2#show frame-relay map
+Serial0/0/1 (up): ip 192.168.1.1 dlci 100(0*64,0*1840), dynamic,
+```
 
 通过命令可以查看在帧中继交换机上虚电路交换的过程。从接口s0/0/1的200虚电路交换到s0/0/0的100的虚电路。
 
-  Fr-sw#show frame-relay route  Input Intf   Input Dlci    Output Intf   Output Dlci    Status  Serial0/0/0   100       Serial0/0/1   200        active  Serial0/0/1   200      Serial0/0/0   100        active  
-
-图15.4 终端显示信息
+```bash
+Fr-sw#show frame-relay route
+Input Intf      Input Dlci       Output Intf      Output Dlci        Status
+Serial0/0/0     100           Serial0/0/1      200               active
+Serial0/0/1     200           Serial0/0/0      100               active
+```
 
 路由器的虚电路200在交换机s0/0/1上，这样从交换机s0/0/1过来的数据就会发送给路由器的s0/0/0上。
 
-  nju1#show frame-relay pvc  PVC Statistics for interface Serial0/0/0  (Frame Relay DTE)         Active    Inactive    Deleted    Static  Local      1      0      0      0  Switched    0      0      0      0  Unused     0      0      0      0     DLCI = 200, DLCI USAGE = LOCAL, PVC STATUS = ACTIVE,  INTERFACE = Serial0/0/0     input pkts 16     output  pkts 16      in bytes 1594     out bytes 1594    dropped  pkts 0      in pkts dropped 0     out pkts dropped 0        out bytes dropped 0     in FECN pkts 0    in BECN  pkts 0      out FECN pkts 0     out BECN pkts 0    in DE pkts  0       out DE pkts 0     out va=casj=t okts 1  out  bcast bytes 34         5 minute input rate 0 bits/sec, 0 packets/sec     5 minute output rate 0 bits/sec, 0 packets/sec     pvc create time 00:08:30, last time pvc status changed 00:08:20  
+```bash
+nju1#show frame-relay pvc
+PVC Statistics for interface Serial0/0/0 (Frame Relay DTE)
+             Active       Inactive       Deleted        Static
+Local           1            0            0            0
+Switched        0            0            0            0
+Unused          0            0            0            0
+
+DLCI = 200,  DLCI USAGE = LOCAL, PVC STATUS = ACTIVE, INTERFACE = Serial0/0/0
+   input pkts 16         output pkts 16           in bytes 1594
+   out bytes 1594       dropped pkts 0           in pkts dropped 0
+   out pkts dropped 0            out bytes dropped 0
+   in FECN pkts 0        in BECN pkts 0           out FECN pkts 0
+   out BECN pkts 0       in DE pkts 0             out DE pkts 0
+   out va=casj=t okts 1    out bcast bytes 34        
+   5 minute input rate 0 bits/sec, 0 packets/sec
+   5 minute output rate 0 bits/sec, 0 packets/sec
+   pvc create time 00:08:30, last time pvc status changed 00:08:20
+```
 
 图15.5 终端显示信息
 
@@ -114,21 +121,26 @@ nju2(config-if)#no shutdown
 
 nju1的配置：
 
+```bash
 nju1(config-if)#no frame-relay inverse-arp
-
 nju1(config-if)#frame-relay map ip 192.168.1.1 100 broadcast
+```
 
 nju2的配置：
 
+```bash
 nju2(config-if)#no frame-relay inverse-arp
-
 nju2(config-if)#frame-relay map ip 192.168.1.2 200 broadcast
+```
 
 实验结果：
 
-  nju1#show frame-relay map  Serial0/0/0 (up) : ip 192.168.1.2  dlci 200 (0*C8,0*2080), static,        broadcast,        CISCO, status defined, active  
-
-图15.6 终端显示信息
+```bash
+nju1#show frame-relay map
+Serial0/0/0 (up) : ip 192.168.1.2 dlci 200 (0*C8,0*2080), static,
+           broadcast,
+           CISCO, status defined, active
+```
 
 
 

@@ -20,25 +20,26 @@
 
 ### 1 配置路由器Router1的DHCP功能。
 
+```bash
 Router1(config)#service dhcp
-
 Router1(config)#ip dhcp pool nju1
-
 Router1(dhcp-config)#network 10.1.1.0 255.255.255.0
-
 Router1(dhcp-config)#default-router 10.1.1.1
-
 Router1(dhcp-config)#dns-server 10.1.1.1
-
 Router1(config)#ip dhcp excluded-address 10.1.1.1 10.1.1.10
+```
 
 ### 2 设置计算机ip获取为DHCP
 
 ​    检查计算机IP并在Router1上查看地址分配，如图16.2所示。
 
-  Router#show ip dhcp binding  IP address      Client-ID/      Lease  expiration  Type           Hardware address  10.1.1.21      00E0.A3A5.4929   - -       Automatic  10.1.1.22      00D0.BAD4.D490   - -       Automatic  
-
-图16.2 dhcp地址分配信息
+```bash
+Router#show ip dhcp binding
+IP address        Client-ID/            Lease expiration   Type
+                Hardware address
+10.1.1.21         00E0.A3A5.4929      - -              Automatic
+10.1.1.22         00D0.BAD4.D490      - -              Automatic
+```
 
  
 
@@ -48,61 +49,94 @@ Router1(config)#ip dhcp excluded-address 10.1.1.1 10.1.1.10
 
 配置交换机snooping功能，将与Router1相连的f0/2端口设置为信任端口
 
+```bash
 Switch(config)#ip dhcp snooping
-
 Switch(config)#ip dhcp snooping vlan 1
-
 Switch(config)#int f0/2
-
 Switch(config-if)#ip dhcp snooping trust
+```
 
  
 
 配置路由器Router1
 
+```bash
 Router1(config)#ip dhcp relay information trust-all
+```
 
-  Switch#show ip  dhcp snooping   Switch DHCP snooping  is enabled  DHCP snooping is  configured on following VLANs:  1  Insertion of  option 82 is enabled  Option 82 on  untrusted port is not allowed  Verification of  hwaddr field is enabled  Interface  Trusted Rate limit (pps)  -----------------------  ------- ----------------  FastEthernet0/1  no unlimited   FastEthernet0/2  yes unlimited   FastEthernet0/3  no unlimited   FastEthernet0/4  no unlimited  
-
-图16.3 信任f0/2端口
+```bash
+Switch#show ip dhcp snooping 
+Switch DHCP snooping is enabled
+DHCP snooping is configured on following VLANs:
+1
+Insertion of option 82 is enabled
+Option 82 on untrusted port is not allowed
+Verification of hwaddr field is enabled
+Interface Trusted Rate limit (pps)
+----------------------- ------- ----------------
+FastEthernet0/1 no unlimited 
+FastEthernet0/2 yes unlimited 
+FastEthernet0/3 no unlimited 
+FastEthernet0/4 no unlimited
+```
 
 ​    此时，两台计算机IP地址均由Router1分配，IP地址如图16.4和16.5所示。
 
-  C:\>ipconfig     FastEthernet0 Connection:(default port)       Link-local  IPv6 Address.........: FE80::2D0:BAFF:FED4:D490    IP  Address......................: 10.1.1.22    Subnet  Mask.....................: 255.255.255.0    Default  Gateway.................: 10.1.1.1  
+```bash
+C:\>ipconfig
 
-图16.4 计算机0IP地址
+FastEthernet0 Connection:(default port)
 
-​    
+   Link-local IPv6 Address.........: FE80::2D0:BAFF:FED4:D490
+   IP Address......................: 10.1.1.22
+   Subnet Mask.....................: 255.255.255.0
+   Default Gateway.................: 10.1.1.1
+```
+```bash
+C:\>ipconfig
 
-  C:\>ipconfig     FastEthernet0 Connection:(default port)       Link-local  IPv6 Address.........: FE80::2E0:A3FF:FEA5:4929    IP  Address......................: 10.1.1.21    Subnet  Mask.....................: 255.255.255.0    Default  Gateway.................: 10.1.1.1  
+FastEthernet0 Connection:(default port)
 
-图16.5 计算机1IP地址
+   Link-local IPv6 Address.........: FE80::2E0:A3FF:FEA5:4929
+   IP Address......................: 10.1.1.21
+   Subnet Mask.....................: 255.255.255.0
+   Default Gateway.................: 10.1.1.1
+```
 
 将交换机f0/1设置为信任端口，f0/2设置为非信任端口。
 
+```bash
 Switch(config)#int f0/2
-
 Switch(config-if)#no ip dhcp sn
-
 Switch(config-if)#no ip dhcp snooping trust
-
 Switch(config)#int f0/1
-
 Switch(config-if)#ip dhcp snooping trust
-
 Switch(config-if)#end
+```
 
 再次检查两台计算机的IP地址，如图16.6和16.7所示。
 
-  C:\>ipconfig     FastEthernet0 Connection:(default port)       Link-local  IPv6 Address.........: FE80::2E0:A3FF:FEA5:4929    IP  Address......................: 20.1.1.17    Subnet  Mask.....................: 255.255.255.0    Default  Gateway.................: 20.1.1.1  
+```bash
+C:\>ipconfig
 
-图16.6 计算机0IP地址
+FastEthernet0 Connection:(default port)
 
- 
+   Link-local IPv6 Address.........: FE80::2E0:A3FF:FEA5:4929
+   IP Address......................: 20.1.1.17
+   Subnet Mask.....................: 255.255.255.0
+   Default Gateway.................: 20.1.1.1
+```
 
-  C:\>ipconfig     FastEthernet0 Connection:(default port)       Link-local  IPv6 Address.........: FE80::2D0:BAFF:FED4:D490    IP  Address......................: 20.1.1.18    Subnet  Mask.....................: 255.255.255.0    Default  Gateway.................: 20.1.1.1  
+```bash
+C:\>ipconfig
 
-图16.7 计算机1IP地址
+FastEthernet0 Connection:(default port)
+
+   Link-local IPv6 Address.........: FE80::2D0:BAFF:FED4:D490
+   IP Address......................: 20.1.1.18
+   Subnet Mask.....................: 255.255.255.0
+   Default Gateway.................: 20.1.1.1
+```
 
 可以看到，通过交换机snooping的配置，能够阻止非信任端口的DHCP报文传输，从而避免DHCP欺骗。
 
