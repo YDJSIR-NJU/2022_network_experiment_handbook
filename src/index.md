@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: https://oss.ydjsir.com.cn/NW/Banner.png
-tagline: 南京大学软件学院 2022
+tagline: 南京大学软件学院
 actionText: 快速开始
 actionLink: /guide/
 features:

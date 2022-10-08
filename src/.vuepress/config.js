@@ -5,11 +5,11 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: '互联网计算实验手册 2.0',
+  title: '互联网计算实验手册',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
-  description: description,
+  description: "Powered by YDJSIR & lyc0853",
 
   /**
    * Extra tags to be injected to the page HTML `<head>`
@@ -54,6 +54,7 @@ module.exports = {
         link: '/document/'
       },
     ],
+    sidebarDepth: 4,
     sidebar: {
       '/introduction/': [
         {
@@ -96,7 +97,7 @@ module.exports = {
             'chap16_dhcp_protect',
             'chap17_router_ipv6_static',
             'chap18_router_ipv6_ripng',
-            'chap19_router_ipv6_ospfv3',
+            'chap19_router_ospfv3',
           ]
         }
       ],
@@ -110,18 +111,26 @@ module.exports = {
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
     'vuepress-plugin-mathjax',
-    '@snowdog/vuepress-plugin-pdf-export', {
+    ['@snowdog/vuepress-plugin-pdf-export', {
+      // sorter: true,
       puppeteerLaunchOptions: {
         args: ['--no-sandbox', '--disable-setuid-sandbox']
       },
       pageOptions: {
+        // landscape: true,
         displayHeaderFooter: true,
-        printBackground: true,
-        headerTemplate: "<date></date>",
-        format: 'A4',
-        scale: 0.5
+        footerTemplate: "<pageNumber><pageNumber>",
+        printBackground: false,
+        format: "A4",
+        scale: 0.85,
+        margin: {
+          top: "1cm",
+          right: "0.5cm",
+          bottom: "1cm",
+          left: "0.5cm"
+        }
       }
-    },
+    }],
     '@vuepress/nprogress',
     '@vuepress/last-updated'
     // 'element-ui',
@@ -141,7 +150,7 @@ module.exports = {
       md.use(require("markdown-it-abbr"))
     },
     extractHeaders: ['h2', 'h3', 'h4'],
-    toc: { includeLevel: [2, 3,] }
+    toc: { includeLevel: [2, 3, 4] }
   },
 
 }
