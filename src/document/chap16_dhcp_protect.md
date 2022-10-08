@@ -14,7 +14,7 @@
 
 ## 实验拓扑
 
-
+![image-20221009001025330](./chap16_dhcp_protect.assets/image-20221009001025330.png)
 
 ## 实验过程
 

@@ -14,7 +14,7 @@
 
 ## 实验拓扑
 
-
+![image-20221009000835462](./chap08_router_static.assets/image-20221009000835462.png)
 
 ## 实验过程
 

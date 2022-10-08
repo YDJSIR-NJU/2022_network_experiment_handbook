@@ -14,7 +14,7 @@ RIPng 是一种[距离向量](https://baike.baidu.com/item/距离向量)（Dista
 
 ## 实验拓扑
 
-​                               
+![image-20221009001051444](./chap18_router_ipv6_ripng.assets/image-20221009001051444.png)
 
 ## 实验过程
 

@@ -24,7 +24,7 @@ CHAP 验证
 
 ## 实验拓扑
 
-​                               
+![image-20221009000958620](./chap14_router_ppp.assets/image-20221009000958620.png)
 
 ## 实验过程
 
