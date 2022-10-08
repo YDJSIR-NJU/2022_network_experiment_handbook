@@ -1,3 +1,4 @@
+const markdown = require('vuepress-plugin-mathjax/src/markdown')
 const { description } = require('../../package')
 
 module.exports = {
@@ -109,7 +110,41 @@ module.exports = {
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
     'vuepress-plugin-mathjax',
+    '@snowdog/vuepress-plugin-pdf-export', {
+      puppeteerLaunchOptions: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      },
+      pageOptions: {
+        displayHeaderFooter: true,
+        printBackground: true,
+        headerTemplate: "<date></date>",
+        format: 'A4',
+        scale: 0.5
+      }
+    },
+    '@vuepress/nprogress',
+    '@vuepress/last-updated'
     // 'element-ui',
-  ]
+  ],
+  markdown: {
+    lineNumbers: true,
+    extendMarkdown: md => {
+      md.set({
+        html: true,
+        linkify: true,
+        typographer: true
+      })
+      md.use(require("markdown-it-sub"))
+      md.use(require("markdown-it-sup"))
+      md.use(require("markdown-it-footnote"))
+      md.use(require("markdown-it-deflist"))
+      md.use(require("markdown-it-abbr"))
+    },
+    extractHeaders: ['h2', 'h3', 'h4'],
+    toc: { includeLevel: [2, 3,] }
+  },
+
 }
+
+
 

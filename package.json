@@ -17,7 +17,17 @@
     "vuepress": "^1.5.3"
   },
   "dependencies": {
+    "@snowdog/vuepress-plugin-pdf-export": "^1.1.0",
+    "@vuepress/plugin-back-to-top": "^1.9.7",
+    "@vuepress/plugin-medium-zoom": "^1.9.7",
+    "@vuepress/plugin-nprogress": "^1.9.7",
+    "markdown-it": "^13.0.1",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-deflist": "^2.1.0",
+    "markdown-it-footnote": "^3.0.3",
     "markdown-it-katex": "^2.0.3",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
     "vuepress-plugin-mathjax": "^1.2.8"
   }
 }
