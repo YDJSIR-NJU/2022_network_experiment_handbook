@@ -20,7 +20,7 @@
 
 ## 实验拓扑
 
-![image-20221008144735876](chap06_switch_basics.assets/image-20221008144735876.png)
+![image-20221008144735876](./chap06_switch_basics.assets/image-20221008144735876.png)
 
 ## 实验过程
 
@@ -56,7 +56,7 @@ nju(config)#ip  default-gateway 192.168.1.100
 
 vlan1 默认关闭，需要手动打开，设置了管理ip 地址后，就可以通过远程登录来管理这台IP地址了，将PC 机的IP 地址设置为192.168.1.2，然后与交换机的g1/0/1 相连，`Windows键` + `X键`，选择`Windows Powershell`，接着按照下面给出的命令来验证。
 
-![image-20221008145359149](chap06_switch_basics.assets/image-20221008145359149.png)
+![image-20221008145359149](./chap06_switch_basics.assets/image-20221008145359149.png)
 
 telnet 登陆后，分别输入相应的vty 密码和特权密码，即可管理交换机。
 

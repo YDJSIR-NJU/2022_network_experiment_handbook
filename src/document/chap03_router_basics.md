@@ -28,7 +28,7 @@
 
 一台PC通过Console线接入设备，本次实验的所有配置都在这样的拓扑下完成。
 
-![image-20221008143859446](chap03_router_basics.assets/image-20221008143859446.png)
+![image-20221008143859446](./chap03_router_basics.assets/image-20221008143859446.png)
 
 ## 实验过程
 

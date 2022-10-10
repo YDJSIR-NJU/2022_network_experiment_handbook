@@ -22,7 +22,7 @@
 
 ## 实验拓扑
 
-​       ![image-20221008150236628](chap07_switch_security.assets/image-20221008150236628.png)
+​       ![image-20221008150236628](./chap07_switch_security.assets/image-20221008150236628.png)
 
 ## 实验过程
 
