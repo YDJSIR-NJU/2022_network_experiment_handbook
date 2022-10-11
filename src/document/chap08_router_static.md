@@ -64,7 +64,7 @@
 
    **配置 PC1 和 PC2**
 
-   打开 `控制面板\网络和 Internet\网络连接`，双击打开当前活动的网卡，点击`属性`，选择 `Internet 协议版本 4 (TCP/IPv4)`，选择`使用下面的 IP 地址`，填写 `IP 地址`、`子网掩码`，其余项目目前可留空，点击确定。
+   打开 `控制面板\网络和 Internet\网络连接`，双击打开当前活动的网卡，点击`属性`，选择 `Internet 协议版本 4 (TCP/IPv4)`，选择`使用下面的 IP 地址`，填写 `IP 地址`、`子网掩码`、和`默认网关`，`DNS`相关设置可留空，点击确定。
 
    ![image-20221011163953460](./chap08_router_static.assets/image-20221011163953460.png)
 
@@ -124,6 +124,22 @@
    ```
 
    完成路由表的配置后`PC1` 可以连接 `PC2`
+
+   ```
+   C:\>ping 192.168.20.2
+   
+   Pinging 192.168.20.2 with 32 bytes of data:
+   
+   Reply from 192.168.20.2: bytes=32 time=22ms TTL=125
+   Reply from 192.168.20.2: bytes=32 time=2ms TTL=125
+   Reply from 192.168.20.2: bytes=32 time=2ms TTL=125
+   Reply from 192.168.20.2: bytes=32 time=21ms TTL=125
+   
+   Ping statistics for 192.168.20.2:
+       Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+   Approximate round trip times in milli-seconds:
+       Minimum = 2ms, Maximum = 22ms, Average = 11ms
+   ```
 
 3. **尝试默认路由的配置**
 
