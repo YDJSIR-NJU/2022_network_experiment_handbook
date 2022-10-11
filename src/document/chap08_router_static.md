@@ -10,93 +10,143 @@
 
 ## 实验拓扑
 
-![image-20221009000835462](./chap08_router_static.assets/image-20221009000835462.png)
+![image-20221011163412407](./chap08_router_static.assets/image-20221011163412407.png)
 
 ## 实验过程
 
-### 1 端口IP地址配置
+1. **端口配置**
 
-配置Router2620A: （g0/0/0:192.168.10.1,s0/1/0:192.168.20.1）
+   Tip: 可以先修改各台路由器的 Hostname, 便于辨认.
 
-```bash
-Router>enable
-Router#hostname Router2620A
-Router#config terminal
-Router2620A(config)#int g0/0/0
-Router2620A(config-if)#ip address 192.168.10.1 255.255.255.0
-Router2620A(config-if)#no shut
-Router2620A(config-if)#int s1/0/0
-Router2620A(config-if)#ip address 192.168.20.1 255.255.255.0
-Router2620A(config-if)#no shut
-```
+   **配置 RouterA**
 
-配置Router2621: （s1/0/0:192.168.20.2,s1/0/1:192.168.30.1）
+   ```bash
+   // 切换到 g0/0/0(与 PC 相连) 的端口设置
+   RouterA(config)#int g0/0/0
+   // 配置 IP
+   RouterA(config-if)#ip address 192.168.10.1 255.255.255.0
+   // 启动端口
+   RouterA(config-if)#no shut
+   
+   // 切换到 s0/1/0(与 RouterB 相连) 的端口设置
+   RouterA(config-if)#int s0/1/0
+   RouterA(config-if)#ip address 192.168.1.2 255.255.255.0
+   RouterA(config-if)#no shut
+   ```
 
-```bash
-Router>enable
-Router#config terminal
-Router#hostname Router2621
-Router2621(config)#int s1/0/1
-Router2621(config-if)#ip address 192.168.30.1 255.255.255.0
-Router2621(config-if)#no shut
-Router2621(config-if)#int s1/0/0
-Router2621(config-if)#ip address 192.168.20.2 255.255.255.0
-Router2621(config-if)#clock rate 56000
-Router2621(config-if)#no shut
-```
+   **配置 RouterB**
 
-配置Router2620B: （s1/0/0:192.168.30.2,g0/0/0:192.168.40.1）
+   ```bash
+   // s0/1/0 与 RouterA 相连
+   RouterB(config)#int s0/1/0
+   RouterB(config-if)#ip address 192.168.1.1 255.255.255.0
+   RouterB(config-if)#no shut
+   
+   // s0/1/1 与 RouterC 相连
+   RouterB(config-if)#int s0/1/1
+   RouterB(config-if)#ip address 192.168.2.1 255.255.255.0
+   RouterB(config-if)#no shut
+   ```
 
-```bash
-Router>enable
-Router#config terminal
-Router#hostname Router2620B
-Router2620B(config)#int s1/0/0
-Router2620B(config-if)#ip address 192.168.30.2 255.255.255.0
-Router2620B(config-if)#no shut
-Router2620B(config-if)#int g0/0/0
-Router2620B(config-if)#ip address 192.168.40.1 255.255.255.0
-Router2620B(config-if)#no shut
-```
+   **配置 RouterC**
 
-用Ping命令测试各网段的连通性
+   ```bash
+   // s0/1/0 与 RouterB 相连
+   RouterC(config)#int s0/1/0
+   RouterC(config-if)#ip address 192.168.2.2 255.255.255.0
+   RouterC(config-if)#no shut
+   
+   // g0/0/0 与 PC2 相连
+   RouterC(config-if)#int g0/0/0
+   RouterC(config-if)#ip address 192.168.20.1 255.255.255.0
+   RouterC(config-if)#no shut
+   ```
 
-### 2 路由表配置
+   **配置 PC1 和 PC2**
 
-格式: ip route <目标网段> <子网掩码> <下一跳路由器地址(IP地址)>
+   打开 `控制面板\网络和 Internet\网络连接`，双击打开当前活动的网卡，点击`属性`，选择 `Internet 协议版本 4 (TCP/IPv4)`，选择`使用下面的 IP 地址`，填写 `IP 地址`、`子网掩码`，其余项目目前可留空，点击确定。
 
-例如：
+   ![image-20221011163953460](./chap08_router_static.assets/image-20221011163953460.png)
 
-```bash
-Router2620A(config)#ip route 192.168.40.0 255.255.255.0 192.168.20.2 
-```
+   **用Ping命令测试各网段的连通性**
 
-将路由表配置完备后，用ping命令检查各个端口间是否已顺利接通
+   `PC1` 能连接 `RouterA`
 
-### 3 配置默认路由
+   ```
+   C:\>ping 192.168.10.1
+   
+   Pinging 192.168.10.1 with 32 bytes of data:
+   
+   Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+   Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+   Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+   Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+   
+   Ping statistics for 192.168.10.1:
+       Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+   Approximate round trip times in milli-seconds:
+       Minimum = 0ms, Maximum = 0ms, Average = 0ms
+   ```
 
-对于该实验的拓扑结构来说，只有Router1 和Router3 允许配置默认路由。
+   同理，`PC2` 可以连接 `RouterC`
 
-首先应该删除静态路由的配置，才配置默认路由。
+   但 `PC1` 无法连接 `PC2`
 
-以Router2620A为例：
+   ```
+   C:\>ping 192.168.20.2
+   
+   Pinging 192.168.20.2 with 32 bytes of data:
+   
+   Request timed out.
+   Request timed out.
+   Request timed out.
+   Request timed out.
+   
+   Ping statistics for 192.168.20.2:
+       Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+   ```
 
-```bash
-Router2620A(config)# no ip route 192.168.40.0 255.255.255.0 192.168.20.2
-Router2620A(config)# ip route 0.0.0.0 0.0.0.0 192.168.20.2
-```
+2. **路由表配置**
 
-查看路由表  （命令：Router# show ip route）
+   建议对照上方拓扑图理解指令含义
 
-注：有*号表示默认路由
+   指令：`ip route <目标网段> <子网掩码> <下一跳路由器地址(IP地址)>`
+
+   ```bash
+   // 从 A 到 .20.0/24 要先经过 B (.1.1)
+   RouterA(config)#ip route 192.168.20.0 255.255.255.0 192.168.1.1
+   
+   // 从 C 到 .10.0/24 要先经过 B (.2.1)
+   RouterC(config)#ip route 192.168.10.0 255.255.255.0 192.168.2.1
+   
+   RouterB(config)#ip route 192.168.20.0 255.255.255.0 192.168.2.2
+   RouterB(config)#ip route 192.168.10.0 255.255.255.0 192.168.1.2
+   ```
+
+3. **尝试默认路由的配置**
+
+   对于该实验的拓扑结构来说，只有 RouterA 和 RouterC 允许配置默认路由。
+
+   首先应该删除静态路由的配置，才配置默认路由。
+
+   以 RouterA 为例：
+
+   ```bash
+   RouterA(config)#no ip route 192.168.20.0 255.255.255.0 192.168.1.1
+   RouterA(config)#ip route 0.0.0.0 0.0.0.0 192.168.1.1
+   ```
+
+   查看当前路由表`show ip route`
+
+   注：有*号表示默认路由
 
 ## 实验命令列表
 
 | 指令 | 用法 |
 | ------------------ | --------------------------------------------------------- |
 | 路由表配置         | ip route [目标网段] [子网掩码] [下一跳路由器地址(IP地址)] |
-| 删除静态路由的配置 | no ip route  192.168.40.0 255.255.255.0 192.168.20.2      |
-| 配置默认路由       | ip route 0.0.0.0  0.0.0.0 192.168.20.2                    |
+| 删除静态路由的配置 | no ip route [目标网段] [子网掩码] [下一跳路由器地址(IP地址)] |
+| 配置默认路由       | ip route 0.0.0.0 0.0.0.0 192.168.x.x                  |
 | 查看路由表         | show ip route                                             |
 | 停止查看路由表     | no debug all                                              |
 
@@ -105,5 +155,3 @@ Router2620A(config)# ip route 0.0.0.0 0.0.0.0 192.168.20.2
 假如只分配了一个网段：192.168.10.0/24，你该如何搭建上述拓扑？请设计并加以实现。
 
 
-
- 
