@@ -45,10 +45,10 @@ module.exports = {
         text: '背景介绍',
         link: '/introduction/'
       },
-      {
-        text: '快速开始',
-        link: '/guide/',
-      },
+      // {
+      //   text: '快速开始',
+      //   link: '/guide/',
+      // },
       {
         text: '实验指南',
         link: '/document/'
@@ -62,19 +62,21 @@ module.exports = {
           collapsable: true,
           children: [
             '',
+            'Switch',
+            'Router'
           ]
         }
       ],
-      '/guide/': [
-        {
-          title: '快速开始',
-          collapsable: true,
-          children: [
-            '',
-            'cheatsheet'
-          ]
-        }
-      ],
+      // '/guide/': [
+      //   {
+      //     title: '快速开始',
+      //     collapsable: true,
+      //     children: [
+      //       '',
+      //       'cheatsheet'
+      //     ]
+      //   }
+      // ],
       '/document/': [
         {
           title: '实验指南',
@@ -108,8 +110,18 @@ module.exports = {
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
+    '@vuepress/back-to-top',
+    [
+      'vuepress-plugin-zooming',
+      {
+        delay: 1000,
+        options: {
+          bgColor: 'rgb(1, 1, 1)',
+          bgOpacity: '0.3',
+          zIndex: 1000,
+        },
+      },
+    ],
     'vuepress-plugin-mathjax',
     ['@snowdog/vuepress-plugin-pdf-export', {
       // sorter: true,

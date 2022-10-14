@@ -1,4 +1,4 @@
-# 实验指南
+# 快速开始
 
 ::: danger STOP
 Danger zone, do not proceed
