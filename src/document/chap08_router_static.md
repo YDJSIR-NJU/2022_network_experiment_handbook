@@ -64,11 +64,9 @@
    RouterC(config-if)#no shut
    ```
 
-   **配置 PC1 和 PC2**
+   **配置 PC1 和 PC2的 IP 地址和默认网关**
 
-   打开 `控制面板\网络和 Internet\网络连接`，双击打开当前活动的网卡，点击`属性`，选择 `Internet 协议版本 4 (TCP/IPv4)`，选择`使用下面的 IP 地址`，填写 `IP 地址`、`子网掩码`、和`默认网关`，`DNS`相关设置可留空，点击确定。
-
-   ![image-20221011163953460](./chap08_router_static.assets/image-20221011163953460.png)
+   参考实验指南快速开始的软件部分
 
    **用Ping命令测试各网段的连通性**
 
@@ -89,7 +87,7 @@
    Approximate round trip times in milli-seconds:
        Minimum = 0ms, Maximum = 0ms, Average = 0ms
    ```
-
+   
    同理，`PC2` 可以连接 `RouterC`
 
    但 `PC1` 无法连接 `PC2`
@@ -107,7 +105,7 @@
    Ping statistics for 192.168.20.2:
        Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
    ```
-
+   
 2. **路由表配置**
 
    建议对照上方拓扑图理解指令含义
