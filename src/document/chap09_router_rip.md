@@ -1,52 +1,56 @@
 # 07：动态RIP
 
+
+
 ## 实验要求
 
 本次实验主要完成以下操作
 
-在路由器上，通过使用动态RIP路由协议将三台路由器组成一个小网络；
+在路由器上，通过使用动态RIP路由协议将三台路由器组成一个小网络
 
 ## 实验拓扑
 
-![image-20221009000810919](./chap09_router_rip.assets/image-20221009000810919.png)
+![image-20221018192457207](./chap09_router_rip.assets/image-20221018192457207.png)
 
 ## 实验过程
 
-### 1 使用show ip route查看路由表
+1. **按照网络拓扑图配置各端口 ip， 并启动端口。**
 
-检查现在能否从Router2620A 上ping 192.168.40.1。
+2. **检查连通性**
 
-### 2 配置动态路由
+   使用 `show ip route` 指令查看现在的路由表。
 
-Router2620A:
+   在路由器 A 上尝试 ping `192.168.10.2` `192.168.20.2` `192.168.20.1`，能否连通？为什么？
 
-```bash
-Router2620A(config)#router rip
-Router2620A(config)#network 192.168.10.0
-Router2620A(config)#network 192.168.20.0
-```
+3. **配置 RIP 协议动态路由**
 
-Router2621:
-```bash
-Router2621(config)# router rip
-Router2621(config)#network 192.168.20.0
-Router2621(config)#network 192.168.30.0
-```
+   ```bash
+   RouterA(config)#router rip
+   RouterA(config-router)#network 192.168.10.0
+   
+   RouterB(config)#router rip
+   RouterB(config-router)#network 192.168.10.0
+   RouterB(config-router)#network 192.168.20.0
+   
+   RouterC(config)#router rip
+   RouterC(config-router)#network 192.168.20.0
+   ```
 
+4. **再次检查连通性**
 
-Router2620B:
-```bash
-Router2620B(config)#router rip
-Router2620B(config)#network 192.168.30.0
-Router2620B(config)#network 192.168.40.0
-```
+   使用 `show ip route` 指令查看现在的路由表，有何不同？
 
+   在路由器 A 上尝试 ping  `192.168.20.1`，连通则实验成功。
 
-### 3 使用show ip route查看路由表
+   ```bash
+   RouterA#ping 192.168.20.1
+   Type escape sequence to abort.
+   Sending 5, 100-byte ICMP Echos to 192.168.20.1, timeout is 2 seconds:
+   !!!!!
+   Success rate is 100 percent (5/5), round-trip min/avg/max = 22/36/44 ms
+   ```
 
-检查现在能否从Router2620B 上ping 192.168.40.1。
-
-### 4 使用如下指令查看路由表更新(每30秒更新一次)
+注：使用如下指令可以查看路由表更新(每30秒更新一次)
 
 ```bash
 debug ip rip #开始查看
@@ -57,7 +61,6 @@ no debug all #停止查看
 
 | 指令 | 用法 |
 | -------------- | --------------------------------------------------------- |
-| 路由表配置     | ip route [目标网段] [子网掩码] [下一跳路由器地址(IP地址)] |
 | 查看路由表     | show ip route                                             |
 | 查看路由表更新 | debug ip rip                                              |
 | 停止查看路由表 | no debug all                                              |
