@@ -65,3 +65,9 @@
 打开 `控制面板\网络和 Internet\网络连接`，双击打开当前活动的网卡，点击`属性`，选择 `Internet 协议版本 4 (TCP/IPv4)`，选择`使用下面的 IP 地址`，填写 `IP 地址`、`子网掩码`、和`默认网关`，`DNS`相关设置可留空，点击确定。
 
 ![image-20221011163953460](./README.assets/image-20221011163953460.png)
+
+在 Windows 上使用 ping 指令：
+
+对着左下角开始菜单图标邮件，打开 `Windows Powershell` ，可以在其中执行 ping 指令。
+
+![image-20221019150711942](./README.assets/image-20221019150711942.png)
