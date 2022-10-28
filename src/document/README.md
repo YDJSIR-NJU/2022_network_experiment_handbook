@@ -68,6 +68,6 @@
 
 在 Windows 上使用 ping 指令：
 
-对着左下角开始菜单图标邮件，打开 `Windows Powershell` ，可以在其中执行 ping 指令。
+对着左下角开始菜单图标右键，打开 `Windows Powershell` ，可以在其中执行 ping 指令。
 
 ![image-20221019150711942](./README.assets/image-20221019150711942.png)
