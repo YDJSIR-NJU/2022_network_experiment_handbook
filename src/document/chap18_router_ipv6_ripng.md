@@ -1,5 +1,7 @@
 # 16：IPv6环境中的RIPng配置
 
+> 本实验暂未能在Packet Tracer中复现
+
 ## 实验前的准备
 
 IETF在1997年为了解决RIP协议与IPv6的兼容性问题RIP协议进行了改进，制定了基于IPv6的RIPng(RIP next generation)标准。

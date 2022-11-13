@@ -3,7 +3,7 @@ home: true
 heroImage: https://oss.ydjsir.com.cn/NW/Banner.png
 tagline: 南京大学软件学院
 actionText: 实验指南
-actionLink: /document/
+actionLink: /document/quickStart.html
 features:
 - title: 背景介绍
   details: 背景与意义介绍

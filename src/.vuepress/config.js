@@ -43,15 +43,11 @@ module.exports = {
     nav: [
       {
         text: '背景介绍',
-        link: '/introduction/'
+        link: '/introduction/intro.html'
       },
-      // {
-      //   text: '快速开始',
-      //   link: '/guide/',
-      // },
       {
         text: '实验指南',
-        link: '/document/'
+        link: '/document/quickStart.html'
       },
     ],
     sidebarDepth: 4,
@@ -61,28 +57,18 @@ module.exports = {
           title: '背景介绍',
           collapsable: true,
           children: [
-            '',
+            'intro',
             'Switch',
             'Router'
           ]
         }
       ],
-      // '/guide/': [
-      //   {
-      //     title: '快速开始',
-      //     collapsable: true,
-      //     children: [
-      //       '',
-      //       'cheatsheet'
-      //     ]
-      //   }
-      // ],
       '/document/': [
         {
           title: '实验指南',
           collapsable: true,
           children: [
-            '',
+            'quickStart',
             'chap03_router_basics',
             'chap04_router_recovery',
             'chap05_router_backup',

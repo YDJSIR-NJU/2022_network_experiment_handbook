@@ -1,5 +1,7 @@
 # 17：IPv6环境的OSPFv3实验
 
+> 本实验暂未能在Packet Tracer中复现
+
 ## 实验前准备
 
 OSPFv3主要用于在IPv6网络中提供路由功能，OSPFv3是基于OSPFv2上开发用于IPv6网络的路由协议。而无论是OSPFv2还是OSPFv3在工作机制上基本相同；但为了支持IPv6地址格式，OSPFv3对OSPFv2做了一些改动。
