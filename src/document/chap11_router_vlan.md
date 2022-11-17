@@ -1,6 +1,6 @@
-# 09：VLAN间路由
+# 07：VLAN间路由
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap11.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_vlan.pkt)
 
 ## 实验要求 
 

@@ -70,8 +70,6 @@ module.exports = {
           children: [
             'quickStart',
             'chap03_router_basics',
-            'chap04_router_recovery',
-            'chap05_router_backup',
             'chap06_switch_basics',
             'chap07_switch_security',
             'chap08_router_static',

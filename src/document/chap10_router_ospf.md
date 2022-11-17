@@ -1,6 +1,6 @@
-# 08：配置单域OSPF
+# 06：配置单域OSPF
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap10.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_ospf.pkt)
 
 ## 实验要求
 

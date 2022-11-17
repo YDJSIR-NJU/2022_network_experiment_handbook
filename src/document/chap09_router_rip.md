@@ -1,6 +1,6 @@
-# 07：动态RIP
+# 05：动态RIP
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap09.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_rip.pkt)
 
 ## 实验要求
 

@@ -1,6 +1,6 @@
-# 10：NAT网络地址转换
+# 08：NAT网络地址转换
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap12.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_nat.pkt)
 
 ## 实验要求
 

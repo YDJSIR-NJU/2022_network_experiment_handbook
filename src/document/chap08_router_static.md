@@ -1,6 +1,6 @@
-# 06：静态路由和简单组网
+# 04：静态路由和简单组网
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap08.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_static.pkt)
 
 ## 实验要求
 

@@ -1,6 +1,6 @@
-# 12：PPP 验证实验
+# 10：PPP 验证实验
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap14.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_ppp.pkt)
 
 ## 实验要求
 
@@ -72,7 +72,7 @@ RouterB(config-if)#end
 RouterB#ping 192.168.1.1
 ```
 
-测试结果如图：
+测试结果如下。
 
 ```bash
 Type escape sequence to abort.
@@ -113,7 +113,7 @@ RouterB(config)#username nju1 password ccnp
 RouterB#ping 192.168.1.1
 ```
 
-测试结果如图：
+测试结果如下。
 
 ```bash
 Type escape sequence to abort.
@@ -129,7 +129,7 @@ RouterB(config)#username nju1 password ccna
 RouterB#ping 192.168.1.1
 ```
 
-测试结果如图：
+测试结果如下。
 
 ```bash
 Type escape sequence to abort.
@@ -145,7 +145,7 @@ RouterB(config)#username RouterA password ccnp
 RouterB#ping 192.168.1.1
 ```
 
-测试结果如图：
+测试结果如下。
 
 ```bash
 Type escape sequence to abort.

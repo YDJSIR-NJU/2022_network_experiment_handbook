@@ -1,6 +1,6 @@
-# 15：IPv6静态路由和默认路由实验
+# 13：IPv6静态路由和默认路由实验
 
-> 本实验暂未能在Packet Tracer中复现
+> 本实验暂未在Packet Tracer中复现
 
 ## 实验前准备
 
@@ -27,20 +27,22 @@
 在路由器R1上的配置：
 
 ```bash
-R1(config)#ipv6 unicast-routing　//启动IPv6的路由功能，否则静态路由无法完成。
-R1(config)#interface serial 0/0/0　//进入serial 0/0/0接口模式。
-R1(config-if)#ipv6 address 2001:10::1/64　 //为该接口配置IPv6地址
+R1(config)#ipv6 unicast-routing
+R1(config)#interface serial 0/1/0
+R1(config-if)#ipv6 address 2001:10::1/64
 R1(config-if)#no shutdown
 R1(config-if)#exit
 ```
 
- 
+ 第一行，启动IPv6的路由功能，否则静态路由无法完成。
+
+注意，第三行设置的值只是它公开访问的地址。这实际上是一个公网IPv6地址，不应该在私网中这么用，但实验时为了简化实现，都这么操作。IPv6一个连接可以同时有多个地址，设置这个不会影响`fe80`那个地址的存在。
 
 在路由器R2上的配置：
 
 ```bash
 R2(config)#ipv6 unicast-routing
-R2(config)#interface serial 0/0/1
+R2(config)#interface serial 0/1/0
 R2(config-if)#ipv6 address 2001:10::2/64
 R2(config-if)#no shutdown
 R2(config-if)#exit
@@ -55,9 +57,7 @@ R2(config-if)#ipv6 address 2001:4::1/64
 R2(config-if)#exit
 ```
 
- 
-
-在路由器R1上去ping路由器R2上的那几个环回IPv6地址，结果应该是ping不通，因为在路由器R1上暂时没有到目标地址的路由，关于这一技术知识点与IPv4的环境相同，要配置IPv6静态路由和默认路由功能类似于IPv4静态路由和默认路由，但是书写形式上还是存在一定区别，而默认路由是一种特殊的静态路由。
+ 在路由器R1上去ping路由器R2上的那几个环回IPv6地址，结果应该是ping不通，因为在路由器R1上暂时没有到目标地址的路由，关于这一技术知识点与IPv4的环境相同，要配置IPv6静态路由和默认路由功能类似于IPv4静态路由和默认路由，但是书写形式上还是存在一定区别，而默认路由是一种特殊的静态路由。
 
 建议的IPv6静态路由输入的格式
 
@@ -67,11 +67,11 @@ ipv6 route <目标IPv6前缀><出站接口><下一跳IPv6地址>
 
 出站接口：当前路由器转发数据包的出站接口，如果使用了邻接路由器的IPv6本地链路地址来作为下一跳地址，那么在静态路由的语法中必须包含出站接口关键字。
 
-下一跳IPv6地址：要到达目标网络所要历经的下一跳路由器的IPv6的地址，这与IPv4的环境相同，注意：根据RFC2461规定，路由器必须能够确定下一跳路由器的本地链路地址，所以，在配置IPv6静态路由时，下一跳地址建议配置为邻接路由器的本地链路IPv6地址。在该实验环境中可以在路由器R2上使用show ipv6 interface serial 0/0/1来查看路由器R2的本地链路IPv6地址，如图17.2所示。
+下一跳IPv6地址：要到达目标网络所要历经的下一跳路由器的IPv6的地址，这与IPv4的环境相同，注意：根据RFC2461规定，路由器必须能够确定下一跳路由器的本地链路地址，所以，在配置IPv6静态路由时，下一跳地址建议配置为邻接路由器的本地链路IPv6地址。在该实验环境中可以在路由器R2上使用`show ipv6 interface serial 0/1/0`来查看路由器R2的本地链路IPv6地址，如下所示。
 
 ```bash
 Router#show ipv6 interface serial 0/0/1
-Serial0/0/1 is up, line protocol is up
+Serial0/1/0 is up, line protocol is up
   Ipv6 is enabled, link-local address is FE80::6FE:7FFF:FEEB:7E8
   No Virtual link-local address(es):
   Global unicast address(es):
@@ -93,15 +93,19 @@ Router#
 
  
 
-在路由器R1上配置IPv6的静态路由：
+在路由器R1上配置IPv6的静态路由。
+
+::: tip TIP
+请认真看上一段的内容。下方指令**最后的那个IPv6地址不是固定的**，需要根据前面看到的`下一跳路由器实际的本地链路IPv6地址`填入。如果设置错误，在进行下一次设置之前必须把前面的设置取消。在同时配置了两个路由的情况下，路由器会轮流访问这两个路由对应的IP，造成ping的时候一个包通一个包不通的景象。下面所有的指令都是一样的，凡是涉及`fe80`开头的指令，都必须根据实际查看到的值填入。
+:::
 
 ```bash
-R1(config)#ipv6 route 2001:2::/64 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
-R1(config)#ipv6 route 2001:3::/64 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
-R1(config)#ipv6 route 2001:4::/64 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#ipv6 route 2001:2::/64 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#ipv6 route 2001:3::/64 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#ipv6 route 2001:4::/64 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
 ```
 
-当完成上述配置后，可以在路由器R1上通过指令show ipv6 route查看Ipv6的路由表，如图17.3所示，可清晰地看见被添加的三条静态路由。然后在路由器R1上再次测试与目标Ipv6的通信，如果没有故障，应该成功通信，如图17.4所示。
+当完成上述配置后，可以在路由器R1上通过指令show ipv6 route查看Ipv6的路由表，如下所示，可清晰地看见被添加的三条静态路由。然后在路由器R1上再次测试与目标Ipv6的通信，如果没有故障，应该成功通信，如下所示。
 
 ```bash
 R1#show ipv6 route
@@ -113,15 +117,15 @@ Codes: C – Connected, L – Local, S – Static, U – Per-user Static route
       O – OSPF Intra, OI – OSPF Inter, OE1 – OSPF ext 1, OE2 – OSPF ext 2
       ON1 – OSPF NSSA ext 1, ON2 – OSPF NSSA ext 2
 S  2001:2::/64  [1/0]
-     via FE80::6FE:7FFF:FEEB:7E8, Serial0/0/0 
+     via FE80::6FE:7FFF:FEEB:7E8, Serial0/1/0 
 S  2001:3::/64  [1/0]
-     via FE80::6FE:7FFF:FEEB:7E8, Serial0/0/0
+     via FE80::6FE:7FFF:FEEB:7E8, Serial0/1/0
 S  2001:4::/64  [1/0]
-     via FE80::6FE:7FFF:FEEB:7E8, Serial0/0/0
+     via FE80::6FE:7FFF:FEEB:7E8, Serial0/1/0
 C  2001:10::/64  [0/0]
      via Serial0/0/0, directly connected 
 L  2001:10::1/128  [0/0]
-     via Serial0/0/0, receive
+     via Serial0/1/0, receive
 L  FF00::/8  [0/0]
      via Null0, receive  
 R1#
@@ -149,28 +153,24 @@ Success rate is 100 rate percent(5/5), round-trip min/avg/max = 16/16/16 ms
 R1#
 ```
 
-图17.4 成功与目标IPv6地址通信
-
  
 
 ### 2 删除三条静态路由，然后配置IPv6的默认路由来完成与目标网络通信
 
-关于删除三条静态路由和添加默认路由的配置如下所示，当完成配置后，可以通过再次查看IPv6的路由表，如图17.5所示，可清晰地看到被添加的IPv6的默认路由，此时，路由器R1应该能成功的ping通三条目标IPv6地址。
+关于删除三条静态路由和添加默认路由的配置如下所示，当完成配置后，可以通过再次查看IPv6的路由表，如下所示，可清晰地看到被添加的IPv6的默认路由，此时，路由器R1应该能成功的ping通三条目标IPv6地址。
 
 在路由器R1上去删除IPv6的静态路由：
 
 ```bash
-R1(config)#no ipv6 route 2001:4::/64 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
-R1(config)#no ipv6 route 2001:3::/64 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
-R1(config)#no ipv6 route 2001:2::/64 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#no ipv6 route 2001:4::/64 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#no ipv6 route 2001:3::/64 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#no ipv6 route 2001:2::/64 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
 ```
 
- 
-
-在路由器R1上配置Ipv6的默认路由：
+ 在路由器R1上配置Ipv6的默认路由。
 
 ```bash
-R1(config)#ipv6 route ::/0 serial 0/0/0 fe80::6ef:7fff:feeb:7e8
+R1(config)#ipv6 route ::/0 serial 0/1/0 fe80::6ef:7fff:feeb:7e8
 ```
 
 ```bash
@@ -190,10 +190,7 @@ L   2001:10::1/128  [0/0]
      via Serial0/0/0, receive
 L   FF00::/8  [0/0]
      via Null0, receive
-R1#     
 ```
-
-图17.5 路由器R1上的IPv6默认路由
 
 ## 实验命令列表
 

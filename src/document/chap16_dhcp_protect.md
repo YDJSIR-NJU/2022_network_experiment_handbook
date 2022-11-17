@@ -1,6 +1,6 @@
-# 14：DHCP欺诈保护
+# 12：DHCP欺诈保护
 
-> 本实验暂未能在Packet Tracer中复现
+> 本实验暂未在Packet Tracer中复现
 
 ## 实验前准备
 
@@ -22,6 +22,16 @@
 
 ### 1 配置路由器Router1的DHCP功能。
 
+注意，你需要将Router1（`g0/0/0`）与交换机（`g1/0/1`）连接的接口打开，而后再进行下一步设置。
+
+```bash
+Router1(config)# int g0/0/0
+Router1(config)# ip address 10.1.1.1 255.255.255.0
+Router1(config)# no shutdown
+```
+
+接下来，你要配置Router1的DHCP功能。
+
 ```bash
 Router1(config)#service dhcp
 Router1(config)#ip dhcp pool nju1
@@ -29,11 +39,21 @@ Router1(dhcp-config)#network 10.1.1.0 255.255.255.0
 Router1(dhcp-config)#default-router 10.1.1.1
 Router1(dhcp-config)#dns-server 10.1.1.1
 Router1(config)#ip dhcp excluded-address 10.1.1.1 10.1.1.10
+Router1(config)#no ip dhcp conflict logging
+Router1(config)#ip dhcp relay information trust-all
 ```
+
+ 不加最后一行命令会导致在开启`DHCP snooping`的默认情况下，交换机必须同时信任电脑连接的端口和路由器连接的端口才能打通DHCP工作的流程。因为现在电脑不是直接接在路由器上的，DHCP的请求要经过交换机中继一道，默认情况下路由器是不信任交换机的工作的，但交换机在开启`snooping`后默认是使用`relay`的方式接管了所有的DHCP请求的。在不开启`DHCP snooping`的情况下则完全没有这些问题。下面对Router2的设置也是同理的。
 
 ### 2 设置计算机ip获取为DHCP
 
-​    检查计算机IP并在Router1上查看地址分配，如图16.2所示。
+设置电脑为自动获取IP（DHCP）。具体设置过程请参考文档中的 `快速开始` 章节。
+
+::: tip TIP
+本实验中，每次设置路由器DHCP和设置交换机snooping设置后，一定要记得把电脑的本地连接先禁用再启用，以保证电脑的IP地址是修改后DHCP分配的。
+:::
+
+检查计算机IP并在Router1上查看地址分配。
 
 ```bash
 Router#show ip dhcp binding
@@ -43,51 +63,74 @@ IP address        Client-ID/            Lease expiration   Type
 10.1.1.22         00D0.BAD4.D490      - -              Automatic
 ```
 
- 
-
 ### 3 防止DHCP欺骗
 
-按照步骤1配置Router0，将Router0的DHCP地址池设置为20.1.1.0
+按照步骤1配置Router0，但其中Router0的DHCP地址池设置为`20.1.1.0`，其余配置不变。
 
-配置交换机snooping功能，将与Router1相连的f0/2端口设置为信任端口
+注意，你需要将Router0（`g0/0/0`）与交换机（`g1/0/2`）连接的接口打开，而后再进行下一步设置。
+
+```bash
+Router0(config)# int g0/0/0
+Router0(config)# ip address 20.1.1.1 255.255.255.0
+Router0(config)# no shutdown
+```
+
+接下来，你要配置Router0的DHCP功能。
+
+```bash
+Router0(config)#service dhcp
+Router0(config)#ip dhcp pool nju1
+Router0(dhcp-config)#network 20.1.1.0 255.255.255.0
+Router0(dhcp-config)#default-router 20.1.1.1
+Router0(dhcp-config)#dns-server 20.1.1.1
+Router0(config)#ip dhcp excluded-address 20.1.1.1 20.1.1.10
+Router0(config)#no ip dhcp conflict logging
+Router0(config)#ip dhcp relay information trust-all
+```
+
+配置交换机snooping功能，将与Router1相连的`g1/0/1`端口设置为信任端口。
 
 ```bash
 Switch(config)#ip dhcp snooping
 Switch(config)#ip dhcp snooping vlan 1
-Switch(config)#int f0/2
+Switch(config)#int g1/0/1
 Switch(config-if)#ip dhcp snooping trust
 ```
 
- 
-
-配置路由器Router1
+查看配置结果。
 
 ```bash
-Router1(config)#ip dhcp relay information trust-all
-```
-
-```bash
-Switch#show ip dhcp snooping 
+Switch#show ip dhcp snooping
 Switch DHCP snooping is enabled
+Switch DHCP gleaning is disabled
 DHCP snooping is configured on following VLANs:
 1
+DHCP snooping is operational on following VLANs:
+1
+DHCP snooping is configured on the following L3 Interfaces:
+
 Insertion of option 82 is enabled
+   circuit-id default format: vlan-mod-port
+   remote-id: f87b.20ef.1100 (MAC)
 Option 82 on untrusted port is not allowed
 Verification of hwaddr field is enabled
-Interface Trusted Rate limit (pps)
------------------------ ------- ----------------
-FastEthernet0/1 no unlimited 
-FastEthernet0/2 yes unlimited 
-FastEthernet0/3 no unlimited 
-FastEthernet0/4 no unlimited
+Verification of giaddr field is enabled
+DHCP snooping trust/rate is configured on the following Interfaces:
+
+Interface                  Trusted    Allow option    Rate limit (pps)
+-----------------------    -------    ------------    ----------------   
+GigabitEthernet1/0/1       yes        yes             unlimited
+  Custom circuit-ids:
 ```
 
-​    此时，两台计算机IP地址均由Router1分配，IP地址如图16.4和16.5所示。
+
+
+此时，两台计算机IP地址均由Router1分配，IP地址如下所示。
 
 ```bash
 C:\>ipconfig
 
-FastEthernet0 Connection:(default port)
+GigabitEthernet0 Connection:(default port)
 
    Link-local IPv6 Address.........: FE80::2D0:BAFF:FED4:D490
    IP Address......................: 10.1.1.22
@@ -97,7 +140,7 @@ FastEthernet0 Connection:(default port)
 ```bash
 C:\>ipconfig
 
-FastEthernet0 Connection:(default port)
+GigabitEthernet0 Connection:(default port)
 
    Link-local IPv6 Address.........: FE80::2E0:A3FF:FEA5:4929
    IP Address......................: 10.1.1.21
@@ -105,23 +148,23 @@ FastEthernet0 Connection:(default port)
    Default Gateway.................: 10.1.1.1
 ```
 
-将交换机f0/1设置为信任端口，f0/2设置为非信任端口。
+将与Router0相连的交换机`g1/0/2`设置为信任端口，`g1/0/1`设置为非信任端口。
 
 ```bash
-Switch(config)#int f0/2
-Switch(config-if)#no ip dhcp sn
+Switch(config)#int g1/0/1
+Switch(config-if)#no ip dhcp snooping
 Switch(config-if)#no ip dhcp snooping trust
-Switch(config)#int f0/1
+Switch(config)#int g1/0/2
 Switch(config-if)#ip dhcp snooping trust
 Switch(config-if)#end
 ```
 
-再次检查两台计算机的IP地址，如图16.6和16.7所示。
+禁用并启用两台电脑的本地连接，再次检查两台计算机的IP地址，结果如下所示。IP改为由Router0分配。
 
 ```bash
 C:\>ipconfig
 
-FastEthernet0 Connection:(default port)
+GigabitEthernet0 Connection:(default port)
 
    Link-local IPv6 Address.........: FE80::2E0:A3FF:FEA5:4929
    IP Address......................: 20.1.1.17
@@ -132,7 +175,7 @@ FastEthernet0 Connection:(default port)
 ```bash
 C:\>ipconfig
 
-FastEthernet0 Connection:(default port)
+GigabitEthernet0 Connection:(default port)
 
    Link-local IPv6 Address.........: FE80::2D0:BAFF:FED4:D490
    IP Address......................: 20.1.1.18

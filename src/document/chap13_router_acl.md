@@ -1,6 +1,6 @@
-# 11：ACL实验
+# 09：ACL实验
 
-[点此下载本次实验的 Cisco Packet Tracer 文件](./chap13.pkt)
+[点此下载本次实验的 Cisco Packet Tracer 文件](./router_acl.pkt)
 
 ## 实验要求
 
