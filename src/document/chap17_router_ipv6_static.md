@@ -28,7 +28,6 @@ Router1(config)#ipv6 unicast-routing
 Router1(config)#interface s0/1/0
 Router1(config-if)#ipv6 address 2001:10::1/64
 Router1(config-if)#no shut
-Router1(config-if)#exit
 ```
 
 注意，第三行设置的值只是它公开访问的地址。这实际上是一个公网IPv6地址，不应该在私网中这么用，但实验时为了简化实现，都这么操作。IPv6一个连接可以同时有多个地址，设置这个不会影响`fe80`那个地址的存在。
@@ -40,7 +39,7 @@ Router2(config)#ipv6 unicast-routing
 Router2(config)#int s0/1/0
 Router2(config-if)#ipv6 address 2001:10::2/64
 Router2(config-if)#no shut
-Router2(config-if)#exit
+
 Router2(config)#int lo1
 Router2(config-if)#ipv6 address 2001:2::1/64
 Router2(config-if)#int lo2

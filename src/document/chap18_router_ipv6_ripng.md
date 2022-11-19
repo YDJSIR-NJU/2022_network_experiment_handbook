@@ -1,12 +1,6 @@
 # 14：IPv6环境中的RIPng配置
 
-> 本实验暂未在Packet Tracer中复现
-
-## 实验前的准备
-
-IETF在1997年为了解决RIP协议与IPv6的兼容性问题RIP协议进行了改进，制定了基于IPv6的RIPng(RIP next generation)标准。
-
-RIPng 是一种[距离向量](https://baike.baidu.com/item/距离向量)（Distance Vector）算法。此协议所用的算法早在 1969 年， ARPANET 就用其来计算[路由](https://baike.baidu.com/item/路由)。然而该协议最初属于 XEROX [网络协议](https://baike.baidu.com/item/网络协议)。 PUP 协议通过[网关](https://baike.baidu.com/item/网关)信息协议交换路由选择信息，而 XNS 则采用该协议的更新版本，命名为[路由选择信息协议](https://baike.baidu.com/item/路由选择信息协议)（RIP）实现路由选择信息交换。 Berkeley 的[路由协议](https://baike.baidu.com/item/路由协议)很大程度上与 RIP 相同，即能够处理 IPV4 及其它地址类型的通用地址格式取代了 XNS 地址，同时[路由选择](https://baike.baidu.com/item/路由选择)每隔 30 秒更新一次。正是因为这种相似性， RIP 既适用于 XNS 协议，也适用于路由类协议。
+> [点此下载本次实验的 Cisco Packet Tracer 文件](./router_ipv6_ripng.pkt)
 
 ## 实验要求
 
@@ -16,75 +10,77 @@ RIPng 是一种[距离向量](https://baike.baidu.com/item/距离向量)（Dista
 
 ## 实验拓扑
 
-![image-20221009001051444](./chap18_router_ipv6_ripng.assets/image-20221009001051444.png)
+![image-20221119131118532](C:\Users\lyc8503\AppData\Roaming\Typora\typora-user-images\image-20221119131118532.png)
 
 ## 实验过程
 
-### 1 首先完成路由器R1、R2、R3的Ipv6的基础配置
+1. **首先完成路由器R1、R2、R3的Ipv6的基础配置**
 
 其中包括启动IPv6和配置IPv6的接口地址，激活接口，具体配置如下：
 
 路由器R1的基础配置
 
 ```bash
-R1(config)#ipv6 unicast-routing   
-R1(config)#interface g0/0/0
-R1(config-if)#ipv6 address 2001:2:2:2::2/64
-R1(config-if)#ipv6 rip cisco enable
-R1(config-if)#no keepalive
+Router1(config)#ipv6 unicast-routing
+Router1(config)#int g0/0/0
+Router1(config-if)#ipv6 address 2001:1:1:1::1/64
+Router1(config-if)#ipv6 rip cisco enable
+Router1(config-if)#no keepalive
 
-R1(config)#interface Serial 0/1/0
-R1(config-if)#ipv6 address 2001:A:A:A::2/64
-R1(config-if)#ipv6 rip cisco enable
-R1(config)#ipv6 router rip cisco
+Router1(config-if)#int s0/1/0
+Router1(config-if)#ipv6 address 2001:A:A:A::2/64
+Router1(config-if)#ipv6 rip cisco enable
+Router1(config-if)#no shut
+Router1(config-if)#ipv6 router rip cisco
 ```
-
- 
 
 路由器R2的基础配置
 
 ```bash
-R2(config)#ipv6 unicast-routing　
-R2(config)#interface g0/0/0
-R2(config-if)#ipv6 address 2001:1:1:1::1/64
-R2(config-if)#ipv6 rip cisco enable
-R2(config-if)#no keepalive
-R2(config)#interface Serial 0/1/0
-R2(config-if)#ipv6 address 2001:A:A:A::1/64
-R2(config-if)#ipv6 rip cisco enable
-R2(config)#interface Serial 0/0/1
-R2(config-if)#ipv6 address 2001:B:B:B::1/64
-R2(config-if)#ipv6 rip cisco enable
-R2(config)#ipv6 router rip cisco
-```
+Router2(config)#ipv6 unicast-routing
+Router2(config)#int g0/0/0
+Router2(config-if)#ipv6 address 2001:2:2:2::2/64
+Router2(config-if)#ipv6 rip cisco enable
+Router2(config-if)#no keepalive
 
- 
+Router2(config-if)#int s0/1/0
+Router2(config-if)#ipv6 address 2001:A:A:A::1/64
+Router2(config-if)#ipv6 rip cisco enable
+Router2(config-if)#no shut
+Router2(config-if)#int s0/1/1
+Router2(config-if)#ipv6 address 2001:B:B:B::1/64
+Router2(config-if)#ipv6 rip cisco enable
+Router2(config-if)#no shut
+Router2(config-if)#ipv6 router rip cisco
+```
 
 路由器R3的基础配置
 
 ```bash
-R3(config)#ipv6 unicast-routing　
-R3(config)#interface g0/0/0
-R3(config-if)#ipv6 address 2001:3:3:1::3/64
-R3(config-if)#ipv6 address 2001:3:3:2::3/64
-R3(config-if)#ipv6 address 2001:3:3:3::3/64
-R3(config-if)#ipv6 address 2001:3:3:4::3/64
-R3(config-if)#ipv6 address 2001:3:3:5::3/64
-R3(config-if)#ipv6 address 2001:3:3:6::3/64
-R3(config-if)#ipv6 rip cisco enable
-R3(config)#no keepalive
-R3(config)#interface Serial 0/1/0
-R3(config-if)#ipv6 address 2001:B:B:B::3/64
-R3(config-if)#ipv6 rip cisco enable
-R3(config)#ipv6 router rip cisco
+Router3(config)#ipv6 unicast-routing
+Router3(config)#int g0/0/0
+Router3(config-if)#ipv6 address 2001:3:3:1::3/64
+Router3(config-if)#ipv6 address 2001:3:3:2::3/64
+Router3(config-if)#ipv6 address 2001:3:3:3::3/64
+Router3(config-if)#ipv6 address 2001:3:3:4::3/64
+Router3(config-if)#ipv6 address 2001:3:3:5::3/64
+Router3(config-if)#ipv6 address 2001:3:3:6::3/64
+Router3(config-if)#ipv6 rip cisco enable
+Router3(config-if)#no keepalive
+	
+Router3(config-if)#int s0/1/0
+Router3(config-if)#ipv6 address 2001:B:B:B::2/64
+Router3(config-if)#ipv6 rip cisco enable
+Router3(config-if)#no shut
+Router3(config-if)#ipv6 router rip cisco
 ```
 
-### 2 验证配置
+2. **验证配置**
 
 在R1验证配置，如下所示。
 
 ```bash
-R1#show ipv6 rip 
+Router1#show ipv6 rip 
 RIP process “cisco”, port 521, multicast-group FF02::9, pid 168
      Administrative distance is 120. Maximum paths is 16
      Updates every 30 seconds, expire after 180
@@ -97,93 +93,72 @@ Periodic updates 92, trigger updates16
       Serial 0/1/0
   Redistribution:
       None
-R1#show ipv6 route
-IPv6 Routing Table – Default – 5 entries
-Codes: C – Connected, L – Local, S – Static, U – Per–user Static route
-      B – BGP, M – MIpv6, R – RIP, I1 – ISIS L1
-      I2 – ISIS L2, IA – ISIS interarea, IS – ISIS summary, D – EIGRP
-      EX – EIGRP external
-      O – OSPF Intra, OI – OSPF Inter, OE1 – OSPF ext 1, OE2 – OSPF ext 2
-      ON1 – OSPF NSSA ext 1, ON2 – OSPF NSSA ext 2
-R  2001:1:1:1::/64  [120/2]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-C  2001:2:2:2::/64  [0/0]
-     via ::, FastEthernet 0/0
-L  2001:2:2:2::2/128  [0/0]
-     via ::, FastEthernet 0/0
-R  2001:3:3:1::/64  [120/3]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-R  2001:3:3:2::/64  [120/3]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-R  2001:3:3:3::/64  [120/3]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-R  2001:3:3:4::/64  [120/3]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-R  2001:3:3:5::/64  [120/3]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-R  2001:3:3:6::/64  [120/3]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0
-C  2001:A:A:A::/64  [0/0]
-     via ::. Serial 0/1/0
-L  2001:A:A:A::2/128[0/0]
-     via ::, Serial 0/1/0
-R  2001:B:B:B::/64  [120/2]
-     via FE80::CE00:3FF:FE68:0, Serial 0/1/0 
-L  FE80::/10  [0/0]
 
-R1#show ipv6 router rip
-IPv6 Routing Table - 14 entries  
-Codes: C - Connected, L - Local, S - Static, R - RIP, B - BGP 
-U - Per-user Static route  
-I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary  
-O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2  
-ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2 
-R   2001:1:1:1::/64  [120/2]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0
-R   2001:3:3:1::/64  [120/3]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0
-R   2001:3:3:2::/64  [120/3]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0
-R   2001:3:3:3::/64  [120/3]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0
-R   2001:3:3:4::/64  [120/3]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0 
-R   2001:3:3:5::/64  [120/3]   
-via FE80::CE00:3FF:FE68:0, Serial0/1/0 
-R   2001:3:3:6::/64  [120/3]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0 
-R   2001:B:B:B::/64  [120/2]  
-via FE80::CE00:3FF:FE68:0, Serial0/1/0 
-R1#show ipv6 rip database 
-RIP process "cisco", local RIB 
-2001:1:1:1::/64, metric 2, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:3:3:1::/64, metric 3, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:3:3:2::/64, metric 3, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:3:3:3::/64, metric 3, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:3:3:4::/64, metric 3, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:3:3:5::/64, metric 3, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:3:3:6::/64, metric 3, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-2001:A:A:A::/64, metric 2  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-  2001:B:B:B::/64, metric 2, installed  
-Serial0/1/0/ FE80::CE00:3FF:FE68:0, expires in 157 secs 
-R1#show ipv6 rip next-hops  
-RIP  process "cisco", Next Hops  
-FE80::CE00:3FF:FE68:0/Serial0/1/0  [9 paths] 
+Router1#show ipv6 route
+IPv6 Routing Table - 13 entries
+Codes: C - Connected, L - Local, S - Static, R - RIP, B - BGP
+       U - Per-user Static route, M - MIPv6
+       I1 - ISIS L1, I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF intra, OI - OSPF inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2
+       D - EIGRP, EX - EIGRP external
+C   2001:1:1:1::/64 [0/0]
+     via GigabitEthernet0/0/0, directly connected
+L   2001:1:1:1::1/128 [0/0]
+     via GigabitEthernet0/0/0, receive
+R   2001:2:2:2::/64 [120/2]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+R   2001:3:3:1::/64 [120/3]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+R   2001:3:3:2::/64 [120/3]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+R   2001:3:3:3::/64 [120/3]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+R   2001:3:3:4::/64 [120/3]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+R   2001:3:3:5::/64 [120/3]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+R   2001:3:3:6::/64 [120/3]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+C   2001:A:A:A::/64 [0/0]
+     via Serial0/1/0, directly connected
+L   2001:A:A:A::2/128 [0/0]
+     via Serial0/1/0, receive
+R   2001:B:B:B::/64 [120/2]
+     via FE80::290:CFF:FE62:5A01, Serial0/1/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+
+Router1#show ipv6 rip database 
+RIP process "cisco" local RIB 
+ 2001:2:2:2::/64, metric 2, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:3:3:1::/64, metric 3, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:3:3:2::/64, metric 3, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:3:3:3::/64, metric 3, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:3:3:4::/64, metric 3, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:3:3:5::/64, metric 3, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:3:3:6::/64, metric 3, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:A:A:A::/64, metric 2
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
+ 2001:B:B:B::/64, metric 2, installed
+    Serial0/1/0/FE80::290:CFF:FE62:5A01, expires in 154 sec
 ```
+
+此时 Router 1 可以 ping 到上面所有的 IP， RIP 成功。
 
 ### 3 在R3上实现聚合路由
 
 ```bash
-R3(congfig)#interface serial 0/1/0
-R3(config-if)ipv6 rip cisco summary-address 2001:3:3::/48
+Router3(congfig)#interface serial 0/1/0
+Router3(config-if)ipv6 rip cisco summary-address 2001:3:3::/48
 ```
 
 在R1上查看路由表(聚合后的路由)，如下所示。
@@ -207,7 +182,7 @@ via FE80::CE00:3FF:FE68:0, Serial1/0
 ### 4 在RIPng中分发默认路由
 
 ```bash
-R3(config)#interface Serial 0/1/0
+R3(config)#interface s0/1/0
 R3(config-if)ipv6 rip cisco default-information originate metric 5
 ```
 
@@ -234,12 +209,11 @@ R1#
 
 ## 实验命令列表
 
-| 启动RIPng     | ipv6 rip cisco enable                    |
+| 指令 | 用法 |
 | ------------- | ---------------------------------------- |
+| 启动RIPng     | ipv6 rip cisco enable                    |
 | 标识RIPng进程 | ipv6 router rip cisco                    |
 | 实现路由聚合  | ipv6 rip cisco summary-address [address] |
-
- 
 
 ## 实验问题
 
