@@ -10,7 +10,7 @@
 
 ## 实验拓扑
 
-![image-20221119131118532](C:\Users\lyc8503\AppData\Roaming\Typora\typora-user-images\image-20221119131118532.png)
+![image-20221119131118532](./chap18_router_ipv6_ripng.assets/image-20221119131118532.png)
 
 ## 实验过程
 
