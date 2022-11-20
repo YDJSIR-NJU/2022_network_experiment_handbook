@@ -299,3 +299,12 @@ Router#
 
 `show start` 查看密码，`copy start run`，将`nvram`中配置复制到内存，修改密码，然后`copy run start`保存配置到启动文件，输入`conf t`进入配置模式，输入`confreg 0x2102`，输入`exit`返回，输入`reset`重启即可。
 
+## 模拟器说明
+
+本实验手册中提供的 `pkt` 文件均为 `lyc8503`的杰作。实验`01`到`03`由于拓扑过于简单没有提供模拟器文件。 从实验`04`开始到实验`15`，除了实验`11`和实验`12`因为模拟器指令和现实不一致没有在模拟器内复现外，其他都有对应的`pkt`文件。
+
+所有的`pkt`文件使用 `Packet Tracer 8.2.0` 制作。请使用南大教育邮箱注册思科官网后，下载等于或大于此版本的`Packet Tracer`以使用这些文件。
+
+https://www.packettracernetwork.com/download/download-packet-tracer.html
+
+安装软件后也需要登录账号后方可使用。

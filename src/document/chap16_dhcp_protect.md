@@ -45,7 +45,7 @@ Router1(config)#no ip dhcp conflict logging
 Router1(config)#ip dhcp relay information trust-all
 ```
 
- 不加最后一行命令会导致在开启`DHCP snooping`的默认情况下，交换机必须同时信任电脑连接的端口和路由器连接的端口才能打通DHCP工作的流程。因为现在电脑不是直接接在路由器上的，DHCP的请求要经过交换机中继一道，默认情况下路由器是不信任交换机的工作的，但交换机在开启`snooping`后默认是使用`relay`的方式接管了所有的DHCP请求的。在不开启`DHCP snooping`的情况下则完全没有这些问题。下面对Router2的设置也是同理的。
+ 不加最后一行命令会导致在开启`DHCP snooping`的默认情况下，交换机必须同时信任电脑连接的端口和路由器连接的端口才能打通DHCP工作的流程。因为现在电脑不是直接接在路由器上的，DHCP的请求要经过交换机中继一道，默认情况下路由器是不信任交换机的工作的，但交换机在开启`snooping`后默认是使用`relay`的方式接管了所有的DHCP请求的。在不开启`DHCP snooping`的情况下则完全没有这些问题。下面对Router0的设置也是同理的。
 
 ### 2 设置计算机ip获取为DHCP
 
