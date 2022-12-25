@@ -95,7 +95,7 @@ Pro Inside global      Inside local      Outside local      Outside global
 ```bash
 RouterB(config)#no ip nat inside source static 192.168.1.1 200.1.1.254 
 RouterB(config)#access-list 1 permit 192.168.1.0  0.0.0.255 
-RouterB(config)#ip nat pool nju 200.1.1.200 200.1.1.220 netmask 255.255.255.0
+RouterB(config)#ip nat pool nju 200.1.1.253 200.1.1.254 netmask 255.255.255.0
 RouterB(config)#ip nat inside source list 1 pool nju
 ```
 
