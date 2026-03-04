@@ -1,25 +1,26 @@
 ---
-home: true
-heroImage: https://oss.ydjsir.com.cn/NW/Banner.png
-tagline: 南京大学软件学院
-actionText: 实验指南
-actionLink: /document/quickStart.html
-features:
-- title: 背景介绍
-  details: 背景与意义介绍
-- title: 快速开始
-  details: 实用操作速查手册
-- title: 实验指南
-  details: 具体实验操作指南
----
+layout: home
 
-::: slot footer
-<div style="text-align: center">
-<a href="http://www.beian.miit.gov.cn"
-    style="color: #bcbec2; margin: auto; padding-bottom: 15px; text-decoration:none">
-  <span>
-  粤ICP备20028390号-1
-  </span>
-</a>
-</div>  
-:::
+hero:
+  name: 互联网计算实验手册
+  text: 南京大学软件学院
+  tagline: Powered by YDJSIR & lyc8503
+  image:
+    src: /Banner.png
+    alt: Banner
+  actions:
+    - theme: brand
+      text: 实验指南
+      link: /document/quickStart
+
+features:
+  - title: 背景介绍
+    details: 背景与意义介绍
+    link: /introduction/intro
+  - title: 快速开始
+    details: 实用操作速查手册
+    link: /document/quickStart
+  - title: 实验指南
+    details: 具体实验操作指南
+    link: /document/quickStart
+---

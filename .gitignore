@@ -8,7 +8,7 @@ dist
 .DS_Store
 .nyc_output
 .basement
-config.local.js
 basement_dist
-src/.vuepress/dist
+src/.vitepress/dist
+src/.vitepress/cache
 site.pdf

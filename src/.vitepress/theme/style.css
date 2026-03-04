@@ -1,0 +1,67 @@
+:root {
+  --vp-c-brand-1: #3eaf7c;
+  --vp-c-brand-2: #33a06f;
+  --vp-c-brand-3: #2a8c63;
+  --vp-c-brand-soft: rgba(62, 175, 124, 0.14);
+  --vp-code-bg: #282c34;
+  --vp-nProgress-color: green;
+}
+
+.VPHome .VPHero img {
+  max-width: 450px !important;
+}
+
+/* Heading auto-numbering (ported from Typora #write selector) */
+.vp-doc {
+  counter-reset: h1;
+}
+
+.vp-doc h1 {
+  counter-reset: h2;
+}
+
+.vp-doc h2 {
+  counter-reset: h3;
+}
+
+.vp-doc h3 {
+  counter-reset: h4;
+}
+
+.vp-doc h4 {
+  counter-reset: h5;
+}
+
+.vp-doc h5 {
+  counter-reset: h6;
+}
+
+.vp-doc h1::before {
+  counter-increment: h1;
+  content: counter(h1) ". ";
+}
+
+.vp-doc h2::before {
+  counter-increment: h2;
+  content: counter(h1) "." counter(h2) ". ";
+}
+
+.vp-doc h3::before {
+  counter-increment: h3;
+  content: counter(h1) "." counter(h2) "." counter(h3) ". ";
+}
+
+.vp-doc h4::before {
+  counter-increment: h4;
+  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) ". ";
+}
+
+.vp-doc h5::before {
+  counter-increment: h5;
+  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ". ";
+}
+
+.vp-doc h6::before {
+  counter-increment: h6;
+  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) ". ";
+}
