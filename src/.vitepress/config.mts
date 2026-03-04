@@ -14,6 +14,7 @@ export default withMermaid(
     title: '互联网计算实验手册',
     description: 'Powered by YDJSIR & lyc8503',
     lang: 'zh-CN',
+    base: '/network_experiment/',
 
     head: [
       ['meta', { name: 'theme-color', content: '#3eaf7c' }],
@@ -123,6 +124,10 @@ export default withMermaid(
           },
         ],
       },
+
+      socialLinks: [
+        { icon: 'github', link: 'https://github.com/YDJSIR-NJU/2022_network_experiment_handbook' },
+      ],
 
       footer: {
         message: '<a href="http://www.beian.miit.gov.cn" style="color: #bcbec2; text-decoration: none;">粤ICP备20028390号-1</a>',

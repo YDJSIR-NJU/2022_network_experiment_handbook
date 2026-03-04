@@ -4,9 +4,12 @@
 
 > Powered by YDJSIR & lyc8503
 
+- **GitHub 仓库**: [YDJSIR-NJU/2022_network_experiment_handbook](https://github.com/YDJSIR-NJU/2022_network_experiment_handbook)
+- **在线文档**: [https://ydjsir.com.cn/network_experiment/](https://ydjsir.com.cn/network_experiment/)
+
 ## 项目简介
 
-本仓库是南京大学软件学院《互联网计算》课程的改进计划的内部仓库，视情况发布后会公开。
+本仓库是南京大学软件学院《互联网计算》课程的改进计划仓库，已公开发布于 GitHub，在线文档部署于 [https://ydjsir.com.cn/network_experiment/](https://ydjsir.com.cn/network_experiment/)。
 
 本仓库的文档组织使用了 [VitePress](https://vitepress.dev/) 框架，以方便版本控制以及发布 Web 版本。实际线下导出时使用 PDF 形式。PDF 内尽量使用 PDF 自带的标签实现目录跳转。Markdown 源文件可根据需要使用 pandoc 等工具转换为 DOCX、EPUB 等其他格式。
 
@@ -167,3 +170,23 @@ export default defineConfig({
 ## 图片管理
 
 请将图片放在与 Markdown 文件同名的 `.assets` 目录或同名目录下。使用以 `./` 开头的相对路径引用。可以使用 Typora 管理图片。
+
+## 贡献者
+
+| 贡献者 | GitHub | 主要职责 |
+|--------|--------|----------|
+| **YDJSIR**（余东骏） | [@YDJSIR](https://github.com/YDJSIR) | 项目发起人。负责整体框架搭建、VitePress 工程配置与后续升级维护、PDF 导出流程、插件集成等工程化工作。 |
+| **lyc8503**（凌亦宸） | [@lyc8503](https://github.com/lyc8503) | 主要内容作者。负责绝大多数实验章节的撰写与校对，贡献提交数量最多。 |
+
+## 更新历史
+
+| 日期 | 类型 | 描述 |
+|------|------|------|
+| 2026-03-04 | 工程化升级 | 升级 VitePress 至最新版本；集成 pagefind 全文搜索、Mermaid 图表、标签切换、阅读增强等插件 |
+| 2022-12-27 | 内容完结 | 全部 19 个实验章节完稿 |
+| 2022-11-21 | 内容补充 | 补充 Packet Tracer 模拟器说明；增补 DHCP Snooping 与 IPv6 章节 |
+| 2022-11-13 | 功能修复 | 修复部署后刷新页面出现 404 的问题 |
+| 2022-10-14 | 内容阶段 | 背景介绍（机房设施、交换机、路由器）初步完成；图片点击放大功能上线 |
+| 2022-10-11 | 内容阶段 | 第 8 章起各实验章节陆续编写 |
+| 2022-10-08 | 初始化 | 基础文件结构整理、依赖配置、实验框架内容初步整理 |
+| 2022-10-07 | 项目创建 | 初始提交，仓库建立 |

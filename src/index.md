@@ -12,6 +12,9 @@ hero:
     - theme: brand
       text: 实验指南
       link: /document/quickStart
+    - theme: alt
+      text: GitHub 仓库
+      link: https://github.com/YDJSIR-NJU/2022_network_experiment_handbook
 
 features:
   - title: 背景介绍
