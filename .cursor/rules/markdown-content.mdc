@@ -1,0 +1,43 @@
+---
+description: Markdown content authoring standards for VitePress experiment handbook pages
+globs: src/**/*.md
+alwaysApply: false
+---
+
+# Markdown Content Standards
+
+## Image Management
+
+- Store images in a directory named `{filename}.assets/` or `{filename}/` alongside the Markdown file.
+- Reference images with relative paths starting with `./`:
+
+```markdown
+![description](./chap03_router_basics.assets/image-20221014112929.png)
+```
+
+## Available Extended Syntax
+
+This project has the following markdown-it plugins and VitePress extensions enabled:
+
+- **Tip/Warning/Danger blocks**: `::: tip`, `::: warning`, `::: danger`
+- **Tabs**: `:::tabs` / `:::tab` blocks (vitepress-plugin-tabs)
+- **Mermaid diagrams**: ` ```mermaid ` code blocks
+- **Math**: LaTeX formulas via `$...$` (inline) and `$$...$$` (block)
+- **Footnotes**: `[^1]` references with `[^1]: text` definitions
+- **Subscript / Superscript**: `~sub~` / `^sup^`
+- **Abbreviations**: `*[abbr]: Full Text`
+- **Definition lists**: term followed by `: definition`
+
+## Chapter File Naming
+
+Experiment chapters follow the pattern: `chap{XX}_{router|switch|dhcp}_{topic}.md`
+
+Examples: `chap03_router_basics.md`, `chap07_switch_security.md`, `chap16_dhcp_protect.md`
+
+## Sidebar Registration
+
+When adding a new chapter, update the `sidebar` object in `src/.vitepress/config.mts` under the `/document/` key. Chapters are ordered by experiment number.
+
+## Dead Links
+
+`.pkt` files (Cisco Packet Tracer) are excluded from dead-link checking in the VitePress config. No action needed for `.pkt` references.

@@ -1,0 +1,36 @@
+---
+description: Global project conventions for the NJU network experiment handbook (VitePress documentation site)
+alwaysApply: true
+---
+
+# Project Conventions
+
+## Language
+
+- Interact with the developer in **Simplified Chinese**.
+- All code, comments, and commit messages must be in **English**.
+- Document content (Markdown prose) is written in **Chinese**.
+
+## Project Structure
+
+```
+src/                        # VitePress document root
+├── index.md                # Homepage (VitePress home layout)
+├── introduction/           # Background introductions
+├── document/               # Experiment chapters (chap03–chap19)
+└── .vitepress/
+    ├── config.mts          # Main VitePress config
+    ├── vitepress-pdf.config.ts  # PDF export config
+    └── theme/
+        ├── index.ts        # Custom theme entry
+        └── style.css       # Custom styles (brand color, heading numbering)
+```
+
+## Key Conventions
+
+- **No external CDN resources**: All images and assets must be stored locally. Never introduce external CDN dependencies.
+- **Local images**: Place images in a `.assets` directory named after the Markdown file (e.g., `chap03_router_basics.assets/`). Reference with `./` relative paths.
+- **Build verification**: After config or content changes, run `npm run build` to verify.
+- **Dev server**: Use `npm run dev` for live-reloading preview during editing.
+- **Base path**: The site is deployed under `/network_experiment/`. Do not change `base` in config.
+- **Node.js**: This project uses Node.js v22 with npm.

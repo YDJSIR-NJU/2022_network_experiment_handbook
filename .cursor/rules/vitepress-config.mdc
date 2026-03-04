@@ -1,0 +1,51 @@
+---
+description: VitePress configuration conventions for the experiment handbook site
+globs: src/.vitepress/**/*.{ts,mts}
+alwaysApply: false
+---
+
+# VitePress Configuration Conventions
+
+## Plugin Integration
+
+- **Vite plugins** (e.g., pagefind): Register in `vite.plugins` array.
+- **Markdown-it plugins** (e.g., footnote, sub, sup): Register via `markdown.config(md)` callback.
+- **VitePress wrappers** (e.g., mermaid): Wrap the config with the plugin's HOF (e.g., `withMermaid(defineConfig(...))`).
+- **Theme plugins** (e.g., tabs, enhanced-readabilities): Register in `src/.vitepress/theme/index.ts` via `enhanceApp` or `Layout` slots.
+
+## SSR Compatibility
+
+When adding a client-side plugin, handle SSR:
+
+```typescript
+// vite.optimizeDeps.exclude — prevent pre-bundling
+optimizeDeps: {
+  exclude: ['@some/plugin/client', 'vitepress']
+}
+// vite.ssr.noExternal — bundle into SSR output
+ssr: {
+  noExternal: ['@some/plugin']
+}
+```
+
+## Sidebar
+
+- Use **manual sidebar configuration**, not auto-generated via `vitepress-sidebar`.
+- Chapters are ordered by experiment number within the `/document/` sidebar group.
+- The `/introduction/` sidebar group has its own section.
+
+## Localization
+
+All user-facing text must be in Chinese:
+
+- `outline.label`: `'目录'`
+- `lastUpdated.text`: `'最近更新'`
+- `docFooter`: `{ prev: '上一篇', next: '下一篇' }`
+- `returnToTopLabel`: `'返回顶部'`
+- pagefind: `btnPlaceholder`, `placeholder`, `emptyText`, `heading`
+
+## Fixed Values
+
+- `base`: `'/network_experiment/'` — do not change
+- `lang`: `'zh-CN'`
+- `theme-color`: `#3eaf7c`
