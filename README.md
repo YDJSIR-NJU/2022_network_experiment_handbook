@@ -99,6 +99,17 @@ src/                          # VitePress 文档根目录
         └── style.css         # 自定义样式
 ```
 
+## 已集成插件
+
+| 插件 | 功能 | 说明 |
+|------|------|------|
+| [vitepress-plugin-pagefind](https://www.npmjs.com/package/vitepress-plugin-pagefind) | 离线全文搜索 | 支持中文分词，构建后自动生成搜索索引，无需外部服务 |
+| [medium-zoom](https://github.com/francoischalifour/medium-zoom) | 图片点击放大 | 点击文档中的图片可全屏放大查看 |
+| [vitepress-plugin-mermaid](https://github.com/emersonbottero/vitepress-plugin-mermaid) | Mermaid 图表 | 在 Markdown 中使用 ` ```mermaid ` 代码块绘制流程图、时序图等 |
+| [vitepress-plugin-tabs](https://vitepress-plugins.sapphi.red/tabs/) | 多标签切换 | 在 Markdown 中使用 `:::tabs` 语法创建标签页切换内容 |
+| [@nolebase/enhanced-readabilities](https://nolebase-integrations.ayaka.io/) | 阅读增强 | 导航栏右上角提供布局切换和聚光灯阅读辅助功能 |
+| [vitepress-sidebar](https://vitepress-sidebar.cdget.com/) | 自动侧边栏（备选） | 已安装但未启用，当前使用手动配置的侧边栏以保持自定义排序 |
+
 ## HTTPS 与域名跳转机制说明
 
 **当前状态：本项目未启用任何强制 HTTPS 或域名跳转配置。**
